@@ -16,4 +16,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/buttonClick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Click Me Noob"
+        tools:layout_editor_absoluteX="135dp"
+        tools:layout_editor_absoluteY="398dp" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="94dp"
+        android:layout_height="158dp"
+        app:srcCompat="@drawable/treepic"
+        tools:layout_editor_absoluteX="41dp"
+        tools:layout_editor_absoluteY="343dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
