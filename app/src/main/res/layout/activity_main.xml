@@ -16,11 +16,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <com.example.cs205_assignment4.AnimatedSquareView
         android:id="@+id/squareView"
         android:layout_width="89dp"
         android:layout_height="111dp"
-        android:background="@drawable/custom_shapes"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.204"
@@ -40,20 +39,20 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.132" />
 
-    <Button
-        android:id="@+id/buttonClick"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Click Me Noob"
-        tools:layout_editor_absoluteX="135dp"
-        tools:layout_editor_absoluteY="398dp" />
+<!--    <Button-->
+<!--        android:id="@+id/buttonClick"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Click Me Noob"-->
+<!--        tools:layout_editor_absoluteX="135dp"-->
+<!--        tools:layout_editor_absoluteY="398dp" />-->
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="94dp"
-        android:layout_height="158dp"
-        app:srcCompat="@drawable/treepic"
-        tools:layout_editor_absoluteX="41dp"
-        tools:layout_editor_absoluteY="343dp" />
+<!--    <ImageView-->
+<!--        android:id="@+id/imageView"-->
+<!--        android:layout_width="94dp"-->
+<!--        android:layout_height="158dp"-->
+<!--        app:srcCompat="@drawable/treepic"-->
+<!--        tools:layout_editor_absoluteX="41dp"-->
+<!--        tools:layout_editor_absoluteY="343dp" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
