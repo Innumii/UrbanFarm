@@ -6,24 +6,21 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.ViewTreeObserver;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.EditText;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import com.example.cs205_assignment4.SunMoon;
+
+import androidx.activity.EdgeToEdge;
 
 public class MainActivity extends AppCompatActivity {
-
+    private SunMoon sunMoon;
     private AnimatedSquareView squareView;
     private TextView squareView2;
     private Handler handler;
     private int currentSize;
-//    private int currentSize2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +29,38 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         squareView = findViewById(R.id.squareView);
-//        squareView2 = findViewById(R.id.squareView2);
         handler = new Handler(Looper.getMainLooper());
+
+        // Start the day-night cycle simulation
+        sunMoon = new SunMoon();
+        sunMoon.setDayNightListener(new SunMoon.DayNightListener() {
+            @Override
+            public void onDay() {
+                // Update UI for day
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Update UI elements for day
+                        TextView dayNightTextView = findViewById(R.id.dayNightTextView);
+                        dayNightTextView.setText("Day");
+                    }
+                });
+            }
+
+            @Override
+            public void onNight() {
+                // Update UI for night
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Update UI elements for night
+                        TextView dayNightTextView = findViewById(R.id.dayNightTextView);
+                        dayNightTextView.setText("Night");
+                    }
+                });
+            }
+        });
+        sunMoon.startDayNightCycle();
 
         // Use ViewTreeObserver to wait for layout to be measured
         ViewTreeObserver observer = squareView.getViewTreeObserver();
@@ -44,10 +71,11 @@ public class MainActivity extends AppCompatActivity {
                 currentSize = squareView.getWidth(); // Get width after layout is measured
                 Log.d("TAG", "Message: " + currentSize);
                 squareView.startIncreasingSize();
-//                startIncreasingSize(squareView, currentSize);
                 squareView.getViewTreeObserver().removeOnGlobalLayoutListener(this); // Remove listener after use
             }
         });
+    }
+}
 
 //        ViewTreeObserver observer2 = squareView2.getViewTreeObserver();
 //        observer2.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -72,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
 //            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
 //            return insets;
 //        });
-    }
 
 //    private void showAlertDialog(String message) {
 //        AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this)
@@ -86,5 +113,3 @@ public class MainActivity extends AppCompatActivity {
 //                }).create();
 //        alertDialog.show();
 //    }
-
-}
