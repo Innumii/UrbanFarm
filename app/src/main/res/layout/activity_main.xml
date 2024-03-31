@@ -7,15 +7,20 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <View
+        android:id="@+id/dayNight"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <TextView
         android:id="@+id/dayNightTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="day/night"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="@string/day_night_label"
+        app:layout_constraintBottom_toBottomOf="@id/dayNight"
+        app:layout_constraintEnd_toEndOf="@id/dayNight"
+        app:layout_constraintStart_toStartOf="@id/dayNight"
+        app:layout_constraintTop_toTopOf="@id/dayNight" />
 
     <com.example.cs205_assignment4.AnimatedSquareView
         android:id="@+id/squareView"
@@ -23,10 +28,10 @@
         android:layout_height="111dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.204"
+        app:layout_constraintHorizontal_bias="0.226"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.132" />
+        app:layout_constraintVertical_bias="0.696" />
 
     <TextView
         android:id="@+id/squareView2"
@@ -35,25 +40,25 @@
         android:background="@drawable/custom_shapes"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.726"
+        app:layout_constraintHorizontal_bias="0.751"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.132" />
+        app:layout_constraintVertical_bias="0.696" />
 
-<!--    <Button-->
-<!--        android:id="@+id/buttonClick"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Click Me Noob"-->
-<!--        tools:layout_editor_absoluteX="135dp"-->
-<!--        tools:layout_editor_absoluteY="398dp" />-->
+    <!--    <Button-->
+    <!--        android:id="@+id/buttonClick"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Click Me Noob"-->
+    <!--        tools:layout_editor_absoluteX="135dp"-->
+    <!--        tools:layout_editor_absoluteY="398dp" />-->
 
-<!--    <ImageView-->
-<!--        android:id="@+id/imageView"-->
-<!--        android:layout_width="94dp"-->
-<!--        android:layout_height="158dp"-->
-<!--        app:srcCompat="@drawable/treepic"-->
-<!--        tools:layout_editor_absoluteX="41dp"-->
-<!--        tools:layout_editor_absoluteY="343dp" />-->
+    <!--    <ImageView-->
+    <!--        android:id="@+id/imageView"-->
+    <!--        android:layout_width="94dp"-->
+    <!--        android:layout_height="158dp"-->
+    <!--        app:srcCompat="@drawable/treepic"-->
+    <!--        tools:layout_editor_absoluteX="41dp"-->
+    <!--        tools:layout_editor_absoluteY="343dp" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
