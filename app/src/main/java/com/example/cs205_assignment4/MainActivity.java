@@ -1,11 +1,14 @@
 package com.example.cs205_assignment4;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -21,7 +24,12 @@ public class MainActivity extends AppCompatActivity {
     private TextView squareView2;
     private Handler handler;
     private int currentSize;
+    private FoodStoresMeter foodStoresMeter;
+    private TextView foodStoresTextView, maxFoodStoresTextView;
+    private Button addFoodButton;
+    private final int MAX_FOOD_STORES = 100; // Maximum limit of food stores
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +82,22 @@ public class MainActivity extends AppCompatActivity {
                 squareView.getViewTreeObserver().removeOnGlobalLayoutListener(this); // Remove listener after use
             }
         });
+
+        foodStoresTextView = findViewById(R.id.foodStoresTextView);
+        maxFoodStoresTextView = findViewById(R.id.maxFoodStoresTextView);
+        addFoodButton = findViewById(R.id.addFoodButton);
+
+        maxFoodStoresTextView.setText("Max food stores capacity: " + MAX_FOOD_STORES);
+        foodStoresMeter = new FoodStoresMeter(foodStoresTextView, MAX_FOOD_STORES, this);
+
+        addFoodButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                foodStoresMeter.increaseFoodStores(10);
+            }
+        });
+
+
     }
 }
 

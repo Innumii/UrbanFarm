@@ -1,6 +1,5 @@
 package com.example.cs205_assignment4;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Handler;
 import android.widget.TextView;
@@ -13,7 +12,7 @@ public class FoodStoresMeter {
     private final int maxCapacity = 5; // change this number if needed
     private final Object lock = new Object(); // lock object for synchronization
 
-    public FoodStoresMeter(TextView foodStoresView, Context context) {
+    public FoodStoresMeter(TextView foodStoresView, int MAX_FOOD_STORES, Context context) {
         this.foodStoresView = foodStoresView;
         this.context = context;
         updateDisplay();
