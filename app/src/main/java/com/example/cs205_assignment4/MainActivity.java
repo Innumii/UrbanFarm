@@ -1,7 +1,5 @@
 package com.example.cs205_assignment4;
 
-import static java.lang.Math.min;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -10,17 +8,17 @@ import android.view.ViewTreeObserver;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.activity.EdgeToEdge;
-import com.example.cs205_assignment4.SunMoon;
 
 import android.graphics.Color;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
-    private SunMoon sunMoon;
     private AnimatedSquareView squareView;
     private TextView dayNightTextView;
 
     private View dayNight; // Corrected variable declaration
-    private Handler handler;
     private int currentSize;
 
     @Override
@@ -32,10 +30,20 @@ public class MainActivity extends AppCompatActivity {
         squareView = findViewById(R.id.squareView);
         dayNight = findViewById(R.id.dayNight);
         dayNightTextView = findViewById(R.id.dayNightTextView); // Assuming it's a TextView displaying "Day" or "Night"
-        handler = new Handler(Looper.getMainLooper());
+        Handler handler = new Handler(Looper.getMainLooper());
 
         // Start the day-night cycle simulation
-        sunMoon = new SunMoon();
+        SunMoon sunMoon = new SunMoon();
+        int battery_capacity = 10;
+        Battery battery = new Battery(battery_capacity);
+        List<SolarPanel> solarPanels = new ArrayList<>();
+
+        int numberOfSolarPanels = 2;
+        for (int i = 0; i < numberOfSolarPanels; i++) {
+            SolarPanel solarPanel = new SolarPanel(sunMoon, battery);
+            solarPanels.add(solarPanel);
+            new Thread(solarPanel).start();
+        }
         sunMoon.setDayNightListener(new SunMoon.DayNightListener() {
             @Override
             public void onTransition(float brightness, boolean isDay, String timeOfDay) {

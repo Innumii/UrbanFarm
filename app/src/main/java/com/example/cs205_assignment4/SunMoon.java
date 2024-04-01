@@ -71,6 +71,18 @@ public class SunMoon {
         }).start();
     }
 
+    public boolean isDay() {
+        return isDay;
+    }
+
+    public int getTimeFactor() {
+        return TIME_FACTOR;
+    }
+
+    public int getTransitionDuration() {
+        return TRANSITION_DURATION;
+    }
+
     private String getTimeOfDay(long currentTimeMillis) {
         int hours;
         if (isDay) {
