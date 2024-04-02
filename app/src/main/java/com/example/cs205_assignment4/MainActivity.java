@@ -185,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
 //                }
 //                manager.notify(0, builder.build());
 
-                if (ContextCompat.checkSelfPermission(MainActivity.this, permi))
+//                if (ContextCompat.checkSelfPermission(MainActivity.this, permi))
             } catch (Exception e) {
                 System.out.println("Error123: " +  e);
             }
