@@ -9,6 +9,8 @@ public class SunMoon {
     private static final int TIME_FACTOR = 5000; // 1 hour = 5 seconds
     private static final int TRANSITION_DURATION = TIME_FACTOR * 12; // 24 hours in a day...
 
+    private float brightness;
+
     public SunMoon() {
         handler = new Handler(Looper.getMainLooper());
     }
@@ -47,7 +49,7 @@ public class SunMoon {
                     }
 
                     // Calculate brightness using sine function
-                    float brightness = (float) Math.sin(angle);
+                    brightness = (float) Math.sin(angle);
 
                     // Determine time of day
                     String timeOfDay = getTimeOfDay(elapsedTime);
@@ -79,8 +81,8 @@ public class SunMoon {
         return TIME_FACTOR;
     }
 
-    public int getTransitionDuration() {
-        return TRANSITION_DURATION;
+    public float getBrightness() {
+        return brightness;
     }
 
     private String getTimeOfDay(long currentTimeMillis) {

@@ -17,6 +17,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private AnimatedSquareView squareView;
     private TextView dayNightTextView;
+    private TextView batteryView;
 
     private View dayNight; // Corrected variable declaration
     private int currentSize;
@@ -30,12 +31,13 @@ public class MainActivity extends AppCompatActivity {
         squareView = findViewById(R.id.squareView);
         dayNight = findViewById(R.id.dayNight);
         dayNightTextView = findViewById(R.id.dayNightTextView); // Assuming it's a TextView displaying "Day" or "Night"
+        batteryView = findViewById(R.id.batteryView);
         Handler handler = new Handler(Looper.getMainLooper());
 
         // Start the day-night cycle simulation
         SunMoon sunMoon = new SunMoon();
-        int battery_capacity = 10;
-        Battery battery = new Battery(battery_capacity);
+        int battery_capacity = 1000;
+        Battery battery = new Battery(battery_capacity, sunMoon);
         List<SolarPanel> solarPanels = new ArrayList<>();
 
         int numberOfSolarPanels = 2;
@@ -44,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
             solarPanels.add(solarPanel);
             new Thread(solarPanel).start();
         }
+
+
         sunMoon.setDayNightListener(new SunMoon.DayNightListener() {
             @Override
             public void onTransition(float brightness, boolean isDay, String timeOfDay) {
@@ -54,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                         // Update squareView background color based on brightness
                         int backgroundColor = calculateBackgroundColor(brightness);
                         dayNight.setBackgroundColor(backgroundColor);
-
+                        batteryView.setText("" + battery.getEnergyStored());
                         // Update dayNightTextView text based on time of day
                         dayNightTextView.setText(isDay ? "Day : " + timeOfDay: "Night : " + timeOfDay);
                     }
