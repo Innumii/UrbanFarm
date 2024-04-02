@@ -6,23 +6,24 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.TextView;
-
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.cs205_assignment4.SunMoon;
-
 import androidx.activity.EdgeToEdge;
 
+import android.graphics.Color;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
-    private SunMoon sunMoon;
     private AnimatedSquareView squareView;
-    private TextView squareView2;
-    private Handler handler;
+    private TextView dayNightTextView;
+
+    private View dayNight; // Corrected variable declaration
     private int currentSize;
     private FoodStoresMeter foodStoresMeter;
     private TextView foodStoresTextView, maxFoodStoresTextView;
@@ -37,33 +38,35 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         squareView = findViewById(R.id.squareView);
-        handler = new Handler(Looper.getMainLooper());
+        dayNight = findViewById(R.id.dayNight);
+        dayNightTextView = findViewById(R.id.dayNightTextView); // Assuming it's a TextView displaying "Day" or "Night"
+        Handler handler = new Handler(Looper.getMainLooper());
 
         // Start the day-night cycle simulation
-        sunMoon = new SunMoon();
+        SunMoon sunMoon = new SunMoon();
+        int battery_capacity = 10;
+        Battery battery = new Battery(battery_capacity);
+        List<SolarPanel> solarPanels = new ArrayList<>();
+
+        int numberOfSolarPanels = 2;
+        for (int i = 0; i < numberOfSolarPanels; i++) {
+            SolarPanel solarPanel = new SolarPanel(sunMoon, battery);
+            solarPanels.add(solarPanel);
+            new Thread(solarPanel).start();
+        }
         sunMoon.setDayNightListener(new SunMoon.DayNightListener() {
             @Override
-            public void onDay() {
-                // Update UI for day
+            public void onTransition(float brightness, boolean isDay, String timeOfDay) {
+                // Update UI for smooth transition
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        // Update UI elements for day
-                        TextView dayNightTextView = findViewById(R.id.dayNightTextView);
-                        dayNightTextView.setText("Day");
-                    }
-                });
-            }
+                        // Update squareView background color based on brightness
+                        int backgroundColor = calculateBackgroundColor(brightness);
+                        dayNight.setBackgroundColor(backgroundColor);
 
-            @Override
-            public void onNight() {
-                // Update UI for night
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        // Update UI elements for night
-                        TextView dayNightTextView = findViewById(R.id.dayNightTextView);
-                        dayNightTextView.setText("Night");
+                        // Update dayNightTextView text based on time of day
+                        dayNightTextView.setText(isDay ? "Day : " + timeOfDay: "Night : " + timeOfDay);
                     }
                 });
             }
@@ -77,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
             public void onGlobalLayout() {
                 // Start increasing size every 5 seconds
                 currentSize = squareView.getWidth(); // Get width after layout is measured
-                Log.d("TAG", "Message: " + currentSize);
                 squareView.startIncreasingSize();
                 squareView.getViewTreeObserver().removeOnGlobalLayoutListener(this); // Remove listener after use
             }
@@ -99,7 +101,27 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+    private int calculateBackgroundColor(float brightness) {
+        int dayColor = getResources().getColor(R.color.dayColor);
+        int nightColor = getResources().getColor(R.color.nightColor);
+
+        // Interpolate colors based on brightness
+        int red = (int) (Color.red(dayColor) * brightness + Color.red(nightColor) * (1 - brightness));
+        int green = (int) (Color.green(dayColor) * brightness + Color.green(nightColor) * (1 - brightness));
+        int blue = (int) (Color.blue(dayColor) * brightness + Color.blue(nightColor) * (1 - brightness));
+
+        // Ensure that RGB values stay within the valid range
+        red = Math.max(0, Math.min(255, red));
+        green = Math.max(0, Math.min(255, green));
+        blue = Math.max(0, Math.min(255, blue));
+
+        // Return the interpolated color
+        return Color.rgb(red, green, blue);
+    }
+
 }
+
 
 //        ViewTreeObserver observer2 = squareView2.getViewTreeObserver();
 //        observer2.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
