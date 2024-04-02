@@ -14,17 +14,8 @@ public class Battery {
         chargeLevel = Math.min(chargeLevel + energy, capacity);
     }
 
-    public synchronized double getChargeLevel() {
-        return chargeLevel;
-    }
-
     public double getCapacity() {
         return capacity;
-    }
-
-    // Method to store energy in the battery
-    public void storeEnergy(int energy) {
-        chargeLevel += energy;
     }
 
     // Method to retrieve the stored energy level
