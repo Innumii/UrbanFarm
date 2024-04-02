@@ -1,8 +1,12 @@
 package com.example.cs205_assignment4;
 
+import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
+
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
@@ -33,12 +37,25 @@ public class MainActivity extends AppCompatActivity {
     private int currentIndex = 0;
     private Handler handler;
     private Runnable runnable;
+    private FoodStoresMeter foodStoresMeter;
+    private TextView foodStoresTextView, maxFoodStoresTextView;
+    private Button addFoodButton;
+    private final int MAX_FOOD_STORES = 100; // Maximum limit of food stores
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
+        Handler uiHandler = new Handler(Looper.getMainLooper());
+        foodStoresTextView = findViewById(R.id.foodStoresTextView);
+        addFoodButton = findViewById(R.id.addFoodButton);
+
+        foodStoresMeter = new FoodStoresMeter(foodStoresTextView, MAX_FOOD_STORES, this, uiHandler);
+        setupButtonListeners();
+
 
         dayNight = findViewById(R.id.dayNight);
         dayNightTextView = findViewById(R.id.dayNightTextView); // Assuming it's a TextView displaying "Day" or "Night"
@@ -122,11 +139,26 @@ public class MainActivity extends AppCompatActivity {
         handler.post(runnable); // Start the initial image rotation
     }
 
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         // Remove the callback to prevent memory leaks
         handler.removeCallbacks(runnable);
+        Handler uiHandler = new Handler(Looper.getMainLooper());
+        foodStoresTextView = findViewById(R.id.foodStoresTextView);
+        addFoodButton = findViewById(R.id.addFoodButton);
+
+        foodStoresMeter = new FoodStoresMeter(foodStoresTextView, MAX_FOOD_STORES, this, uiHandler);
+        setupButtonListeners();
+    }
+
+    private void setupButtonListeners() {
+        addFoodButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+                foodStoresMeter.increaseFoodStores(10);
+            }
+        });
     }
 
     private int calculateBackgroundColor(float brightness) {
