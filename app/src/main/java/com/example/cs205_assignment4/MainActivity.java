@@ -1,5 +1,6 @@
 package com.example.cs205_assignment4;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -123,6 +124,11 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         // Remove the callback to prevent memory leaks
         handler.removeCallbacks(runnable);
+    }
+
+    public void buttonClicked(View view) {
+        Intent indent = new Intent(this, GameActivity.class);
+        startActivity(indent);
     }
 
     private int calculateBackgroundColor(float brightness) {
