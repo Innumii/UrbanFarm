@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Start the day-night cycle simulation
         SunMoon sunMoon = new SunMoon();
-        int battery_capacity = 1000;
+        int battery_capacity = 250;
         Battery battery = new Battery(battery_capacity, sunMoon);
         List<SolarPanel> solarPanels = new ArrayList<>();
 
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                         // Update squareView background color based on brightness
                         int backgroundColor = calculateBackgroundColor(brightness);
                         dayNight.setBackgroundColor(backgroundColor);
-                        batteryView.setText("" + battery.getEnergyStored());
+                        batteryView.setText("Battery : " + (Math.round(battery.getEnergyStored() * 100.0) / 100.0) + " / " + battery.getCapacity());
                         // Update dayNightTextView text based on time of day
                         dayNightTextView.setText(isDay ? "Day : " + timeOfDay: "Night : " + timeOfDay);
                     }

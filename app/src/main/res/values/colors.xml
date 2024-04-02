@@ -7,6 +7,6 @@
     <!-- Define colorPrimary and colorPrimaryVariant -->
     <color name="colorPrimary">#FF6200EE</color> <!-- Example color, replace with your primary color -->
     <color name="colorPrimaryVariant">#FF3700B3</color> <!-- Example color, replace with your primary variant color -->
-    <color name="dayColor">#FF8800</color> <!-- Define a color for day background -->
-    <color name="nightColor">#000080</color>
+    <color name="dayColor">#ADD8EF</color> <!-- Define a color for day background -->
+    <color name="nightColor">#00008B</color>
 </resources>

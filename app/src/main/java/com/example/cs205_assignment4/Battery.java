@@ -1,10 +1,10 @@
 package com.example.cs205_assignment4;
 
 public class Battery {
-    private double capacity; // Capacity of the battery in kWh
+    private final double capacity; // Capacity of the battery in kWh
     private double chargeLevel; // Current charge level of the battery in kWh
-    private double drainRate = -10.0;
-    private SunMoon sunmoon;
+    private final double drainRate = 10.0;
+    private final SunMoon sunmoon;
 
     public Battery(double capacity, SunMoon sunmoon) {
         this.capacity = capacity;
@@ -24,7 +24,7 @@ public class Battery {
                         e.printStackTrace();
                     }
                     if (sunmoon.isDay()){
-                        drain(drainRate / 2);
+                        drain(drainRate / 4);
                     } else {
                         drain(drainRate);
                     }
@@ -40,7 +40,7 @@ public class Battery {
 
     public synchronized void drain(double energy) {
         // Add the collected energy to the battery's charge level
-        chargeLevel = Math.max(chargeLevel + energy, 0);
+        chargeLevel = Math.max(chargeLevel - energy, 0);
     }
 
     public double getCapacity() {
