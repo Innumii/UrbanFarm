@@ -11,6 +11,7 @@ public class FoodStoresMeter {
     private Context context;
     private int foodStores = 0; // start with empty food stores
     private final int MAX_CAPACITY = 30; // change this number if needed
+    private int consumptionRate = 1500; // in milliseconds
     private final Object lock = new Object(); // lock object for synchronization
     private boolean isConsuming = true;
 
@@ -51,7 +52,7 @@ public class FoodStoresMeter {
                 }
 
                 try {
-                    Thread.sleep(1500);
+                    Thread.sleep(consumptionRate);
                 } catch(InterruptedException e) {
                     e.printStackTrace();
                     return;
