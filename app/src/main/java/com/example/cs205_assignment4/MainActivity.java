@@ -2,6 +2,12 @@ package com.example.cs205_assignment4;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -14,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.activity.EdgeToEdge;
+import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 
 import android.graphics.Color;
 
@@ -41,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView foodStoresTextView, maxFoodStoresTextView;
     private Button addFoodButton;
     private final int MAX_FOOD_STORES = 100; // Maximum limit of food stores
+    private static final String CHANNEL_ID = "Channel ID1";
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -124,7 +133,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         imageView = findViewById(R.id.imageView);
-
         Handler handlerPlant = new Handler();
         runnable = new Runnable() {
             @Override
@@ -137,8 +145,51 @@ public class MainActivity extends AppCompatActivity {
         };
 
         handler.post(runnable); // Start the initial image rotation
+
+        Button notiButton = findViewById(R.id.notiButton);
+        notiButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addNotification();
+            }
+        });
     }
 
+    private void addNotification() {
+            try {
+//                NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//
+//                NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID);
+//                builder.setSmallIcon(R.mipmap.ic_launcher_round)
+//                        .setContentTitle("My notification")
+//                        .setContentText("ding ding")
+//                        .setAutoCancel(true)
+//                        .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+//
+//                //create intent to show noti
+//                Intent notiIntent = new Intent(getApplicationContext(), MainActivity.class);
+//                notiIntent.addFlags(notiIntent.FLAG_ACTIVITY_CLEAR_TOP);
+//                notiIntent.putExtra("data", "some info here");
+//                PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, notiIntent,
+//                        PendingIntent.FLAG_MUTABLE);
+//                builder.setContentIntent(contentIntent);
+//
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                    NotificationChannel channel = manager.getNotificationChannel(CHANNEL_ID);
+//                    if (channel == null) {
+//                        int importance = NotificationManager.IMPORTANCE_HIGH;
+//                        channel = new NotificationChannel(CHANNEL_ID, "DESCRIPTION", importance);
+//                        channel.setLightColor(Color.GREEN);
+//                        manager.createNotificationChannel(channel);
+//                    }
+//                }
+//                manager.notify(0, builder.build());
+
+//                if (ContextCompat.checkSelfPermission(MainActivity.this, permi))
+            } catch (Exception e) {
+                System.out.println("Error123: " +  e);
+            }
+    }
 
     @Override
     protected void onDestroy() {

@@ -37,17 +37,17 @@ tools:context=".MainActivity">
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintVertical_bias="0.389" />
 
-    <TextView
-        android:id="@+id/squareTextView"
-        android:layout_width="89dp"
-        android:layout_height="111dp"
-        android:background="@drawable/custom_shapes"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.791"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.085" />
+<TextView
+    android:id="@+id/squareTextView"
+    android:layout_width="89dp"
+    android:layout_height="111dp"
+    android:background="@drawable/custom_shapes"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.791"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_bias="0.085" />
 
 <com.example.cs205_assignment4.AnimatedSquareView
     android:id="@+id/squareView"
@@ -83,6 +83,18 @@ tools:context=".MainActivity">
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintVertical_bias="0.093"
     app:srcCompat="@drawable/sprout" />
+
+<Button
+    android:id="@+id/notiButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Notification"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.798"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_bias="0.379" />
 
 <Button
     android:id="@+id/changeShapeButton"
