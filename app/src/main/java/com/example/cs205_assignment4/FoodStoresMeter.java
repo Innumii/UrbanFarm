@@ -9,27 +9,22 @@ public class FoodStoresMeter {
     private Handler handler;
     private Context context;
     private int foodStores = 0; // start with empty food stores
-    private final int maxCapacity = 5; // change this number if needed
+    private final int MAX_CAPACITY = 30; // change this number if needed
     private final Object lock = new Object(); // lock object for synchronization
 
-    public FoodStoresMeter(TextView foodStoresView, int MAX_FOOD_STORES, Context context) {
+    public FoodStoresMeter(TextView foodStoresView, int MAX_FOOD_STORES, Context context, Handler handler) {
         this.foodStoresView = foodStoresView;
         this.context = context;
+        this.handler = handler;
         updateDisplay();
     }
 
     public void increaseFoodStores(int amount) {
         synchronized(lock) {
-            while(foodStores + amount > maxCapacity) {
-                try {
-                    lock.wait(); // you cannot add to a full buffer
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+            if(foodStores + amount <= MAX_CAPACITY) {
+                foodStores += amount;
+                handler.post(this::updateDisplay);
             }
-            foodStores += amount;
-            updateDisplay();
-            lock.notify();
         }
     }
 
@@ -37,38 +32,23 @@ public class FoodStoresMeter {
         foodStoresView.setText(String.valueOf(foodStores));
     }
 
-    private void consumeFoodStores() {
+    private void consumeFoodStores(int amount) {
         //oh noooo the citizens are consuming the food :o
-        Thread thread = new Thread(new Runnable(){
-            @Override
-            public void run() {
-                while(true) {
-                    synchronized(lock) {
-                        while(foodStores <= 0) {
-                            try {
-                                lock.wait(); // the citizens cannot consume from empty stores
-                            } catch(InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            consume(1);
-                        }
-                        try {
-                            Thread.sleep(60000); // 1 minute
-                        } catch(InterruptedException e) {
-                            e.printStackTrace();
-                        }
+        new Thread(() -> {
+            synchronized (lock) {
+                while(foodStores - amount < 0) {
+                    try {
+                        lock.wait();
+                    } catch(InterruptedException e) {
+                        e.printStackTrace();
+                        return;
                     }
                 }
+                foodStores -= amount;
+                handler.post(this::updateDisplay);
+                lock.notifyAll();
             }
-        });
-    }
-
-    private void consume(int amount) {
-        foodStores -= amount;
-        if(foodStores < 0) {
-            foodStores = 0;
-        }
-        updateDisplayUI();
+        }).start();
     }
 
     private void updateDisplayUI() {

@@ -85,21 +85,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Handler uiHandler = new Handler(Looper.getMainLooper());
         foodStoresTextView = findViewById(R.id.foodStoresTextView);
-        maxFoodStoresTextView = findViewById(R.id.maxFoodStoresTextView);
         addFoodButton = findViewById(R.id.addFoodButton);
 
-        maxFoodStoresTextView.setText("Max food stores capacity: " + MAX_FOOD_STORES);
-        foodStoresMeter = new FoodStoresMeter(foodStoresTextView, MAX_FOOD_STORES, this);
+        foodStoresMeter = new FoodStoresMeter(foodStoresTextView, MAX_FOOD_STORES, this, uiHandler);
+        setupButtonListeners();
+    }
 
-        addFoodButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+    private void setupButtonListeners() {
+        addFoodButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
                 foodStoresMeter.increaseFoodStores(10);
             }
         });
-
-
     }
 
     private int calculateBackgroundColor(float brightness) {
