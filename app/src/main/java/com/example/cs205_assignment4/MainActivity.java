@@ -104,14 +104,14 @@ public class MainActivity extends AppCompatActivity {
 
         imageView = findViewById(R.id.imageView);
 
-        handler = new Handler();
+        Handler handlerPlant = new Handler();
         runnable = new Runnable() {
             @Override
             public void run() {
                 // Set the next image in the array
                 imageView.setImageResource(imageIds[currentIndex]);
                 currentIndex = (currentIndex + 1) % imageIds.length; // Rotate through images
-                handler.postDelayed(this, 3000); // Repeat every 3000 milliseconds (3 seconds)
+                handlerPlant.postDelayed(this, 3000); // Repeat every 3000 milliseconds (3 seconds)
             }
         };
 
