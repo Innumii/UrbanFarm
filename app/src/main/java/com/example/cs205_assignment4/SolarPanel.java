@@ -11,6 +11,8 @@ public class SolarPanel implements Runnable {
         this.sunMoon = sunMoon;
         this.battery = battery;
     }
+
+
     @Override
     public void run() {
         while (isRunning) {
