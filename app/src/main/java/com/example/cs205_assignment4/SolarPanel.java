@@ -22,7 +22,7 @@ public class SolarPanel implements Runnable {
 
             if (sunMoon.isDay()) {
                 // Generate energy during the day
-                battery.storeEnergy(ENERGY_GENERATION_RATE);
+                battery.charge(ENERGY_GENERATION_RATE * sunMoon.getBrightness());
                 System.out.println("Energy stored: " + battery.getEnergyStored());
             }
         }

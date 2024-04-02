@@ -23,6 +23,18 @@
         app:layout_constraintTop_toTopOf="@id/dayNight" />
 
     <TextView
+        android:id="@+id/batteryView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/day_night_label"
+        app:layout_constraintBottom_toBottomOf="@id/dayNight"
+        app:layout_constraintEnd_toEndOf="@id/dayNight"
+        app:layout_constraintStart_toStartOf="@id/dayNight"
+        app:layout_constraintTop_toTopOf="@id/dayNight"
+        app:layout_constraintVertical_bias="0.389" />
+
+
+    <TextView
         android:id="@+id/squareTextView"
         android:layout_width="89dp"
         android:layout_height="111dp"
