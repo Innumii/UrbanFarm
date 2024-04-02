@@ -7,6 +7,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.activity.EdgeToEdge;
@@ -16,12 +18,19 @@ import android.graphics.Color;
 
 public class MainActivity extends AppCompatActivity {
     private SunMoon sunMoon;
-    private AnimatedSquareView squareView;
     private TextView dayNightTextView;
-
     private View dayNight; // Corrected variable declaration
-    private Handler handler;
+
+    private AnimatedSquareView squareAnimated;
+    private TextView squareTextView;
+    private boolean isSquare = true;
     private int currentSize;
+    private ImageView imageView;
+    // Replace with your image IDs
+    private int[] imageIds = {R.drawable.sprout, R.drawable.big_plant216x216};
+    private int currentIndex = 0;
+    private Handler handler;
+    private Runnable runnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +38,8 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        squareView = findViewById(R.id.squareView);
         dayNight = findViewById(R.id.dayNight);
         dayNightTextView = findViewById(R.id.dayNightTextView); // Assuming it's a TextView displaying "Day" or "Night"
-        handler = new Handler(Looper.getMainLooper());
-
         // Start the day-night cycle simulation
         sunMoon = new SunMoon();
         sunMoon.setDayNightListener(new SunMoon.DayNightListener() {
@@ -55,17 +61,55 @@ public class MainActivity extends AppCompatActivity {
         });
         sunMoon.startDayNightCycle();
 
+
+        squareAnimated = findViewById(R.id.squareView);
         // Use ViewTreeObserver to wait for layout to be measured
-        ViewTreeObserver observer = squareView.getViewTreeObserver();
+        ViewTreeObserver observer = squareAnimated.getViewTreeObserver();
         observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
                 // Start increasing size every 5 seconds
-                currentSize = squareView.getWidth(); // Get width after layout is measured
-                squareView.startIncreasingSize();
-                squareView.getViewTreeObserver().removeOnGlobalLayoutListener(this); // Remove listener after use
+                currentSize = squareAnimated.getWidth(); // Get width after layout is measured
+                squareAnimated.startIncreasingSize();
+                squareAnimated.getViewTreeObserver().removeOnGlobalLayoutListener(this); // Remove listener after use
             }
         });
+
+        squareTextView = findViewById(R.id.squareTextView);
+        Button changeShapeButton = findViewById(R.id.changeShapeButton);
+        changeShapeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isSquare) {
+                    squareTextView.setBackgroundResource(R.drawable.circle_shape); // Change to circle shape
+                } else {
+                    squareTextView.setBackgroundResource(R.drawable.custom_shapes); // Change back to square shape
+                }
+                isSquare = !isSquare; // Toggle the flag for the next click
+            }
+        });
+
+        imageView = findViewById(R.id.imageView);
+
+        handler = new Handler();
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                // Set the next image in the array
+                imageView.setImageResource(imageIds[currentIndex]);
+                currentIndex = (currentIndex + 1) % imageIds.length; // Rotate through images
+                handler.postDelayed(this, 3000); // Repeat every 3000 milliseconds (3 seconds)
+            }
+        };
+
+        handler.post(runnable); // Start the initial image rotation
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Remove the callback to prevent memory leaks
+        handler.removeCallbacks(runnable);
     }
 
     private int calculateBackgroundColor(float brightness) {
