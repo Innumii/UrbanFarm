@@ -17,7 +17,7 @@ public class SolarPanel implements Runnable {
     public void run() {
         while (isRunning) {
             try {
-                Thread.sleep(sunMoon.getTimeFactor()); // Wait for the time factor (5 seconds)
+                Thread.sleep(sunMoon.getTimeFactor() / 5); // Wait for the time factor (5 seconds)
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

@@ -3,7 +3,7 @@ package com.example.cs205_assignment4;
 public class Battery {
     private final double capacity; // Capacity of the battery in kWh
     private double chargeLevel; // Current charge level of the battery in kWh
-    private final double drainRate = 10.0;
+    private final double drainRate = 2.0;
     private final SunMoon sunmoon;
 
     public Battery(double capacity, SunMoon sunmoon) {
@@ -19,7 +19,7 @@ public class Battery {
             public void run() {
                 while (true) {
                     try {
-                        Thread.sleep(sunmoon.getTimeFactor()); // Update brightness every 100 milliseconds
+                        Thread.sleep(sunmoon.getTimeFactor() / 10); // Update brightness every 100 milliseconds
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
