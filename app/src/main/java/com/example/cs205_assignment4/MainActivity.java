@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView dayNightTextView;
     private TextView batteryView;
     private View dayNight; // Corrected variable declaration
-
+    private EnergyLevelView energyLevelView;
     private AnimatedSquareView squareAnimated;
     private TextView squareTextView;
     private boolean isSquare = true;
@@ -75,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
             new Thread(solarPanel).start();
         }
 
+        energyLevelView = findViewById(R.id.energyLevelView);
+        energyLevelView.setBattery(battery);
 
         sunMoon.setDayNightListener(new SunMoon.DayNightListener() {
             @Override

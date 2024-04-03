@@ -1,29 +1,48 @@
 package com.example.cs205_assignment4;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Battery {
     private final double capacity; // Capacity of the battery in kWh
     private double chargeLevel; // Current charge level of the battery in kWh
-    private final double drainRate = 10.0;
+    private final double drainRate = 2.0;
     private final SunMoon sunmoon;
+    private List<BatteryListener> listeners;
 
     public Battery(double capacity, SunMoon sunmoon) {
         this.capacity = capacity;
         this.chargeLevel = 0; // Battery starts with zero charge
         this.sunmoon = sunmoon;
+        this.listeners = new ArrayList<>();
         useBattery();
     }
 
-    public void useBattery(){
+    public void addListener(BatteryListener listener) {
+        listeners.add(listener);
+    }
+
+    public void removeListener(BatteryListener listener) {
+        listeners.remove(listener);
+    }
+
+    private void notifyListeners() {
+        for (BatteryListener listener : listeners) {
+            listener.onBatteryLevelChanged(chargeLevel / capacity);
+        }
+    }
+
+    public void useBattery() {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 while (true) {
                     try {
-                        Thread.sleep(sunmoon.getTimeFactor()); // Update brightness every 100 milliseconds
+                        Thread.sleep(sunmoon.getTimeFactor() / 10);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    if (sunmoon.isDay()){
+                    if (sunmoon.isDay()) {
                         drain(drainRate / 4);
                     } else {
                         drain(drainRate);
@@ -36,11 +55,13 @@ public class Battery {
     public synchronized void charge(double energy) {
         // Add the collected energy to the battery's charge level
         chargeLevel = Math.min(chargeLevel + energy, capacity);
+        notifyListeners(); // Notify listeners of the change
     }
 
     public synchronized void drain(double energy) {
         // Add the collected energy to the battery's charge level
         chargeLevel = Math.max(chargeLevel - energy, 0);
+        notifyListeners(); // Notify listeners of the change
     }
 
     public double getCapacity() {
@@ -50,5 +71,9 @@ public class Battery {
     // Method to retrieve the stored energy level
     public double getEnergyStored() {
         return chargeLevel;
+    }
+
+    public interface BatteryListener {
+        void onBatteryLevelChanged(double level);
     }
 }
