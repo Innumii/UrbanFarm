@@ -59,10 +59,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Handler uiHandler = new Handler(Looper.getMainLooper());
-        foodStoresTextView = findViewById(R.id.foodStoresTextView);
         addFoodButton = findViewById(R.id.addFoodButton);
 
-        foodStoresMeter = new FoodStoresMeter(foodStoresTextView, MAX_FOOD_STORES, this, uiHandler);
+        foodStoresMeter = new FoodStoresMeter(this, uiHandler);
         setupButtonListeners();
 
 
@@ -199,10 +198,9 @@ public class MainActivity extends AppCompatActivity {
         // Remove the callback to prevent memory leaks
         handler.removeCallbacks(runnable);
         Handler uiHandler = new Handler(Looper.getMainLooper());
-        foodStoresTextView = findViewById(R.id.foodStoresTextView);
         addFoodButton = findViewById(R.id.addFoodButton);
 
-        foodStoresMeter = new FoodStoresMeter(foodStoresTextView, MAX_FOOD_STORES, this, uiHandler);
+        foodStoresMeter = new FoodStoresMeter(this, uiHandler);
         setupButtonListeners();
     }
 

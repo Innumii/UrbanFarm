@@ -1,22 +1,28 @@
 package com.example.cs205_assignment4;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Handler;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class FoodStoresMeter {
+    private ProgressBar foodStoresMeter;
     private TextView foodStoresView;
     private Handler handler;
     private Context context;
-    private int foodStores = 0; // start with empty food stores
-    private final int MAX_CAPACITY = 30; // change this number if needed
-    private int consumptionRate = 1500; // in milliseconds
+    private int foodStores = 20; // start with some food
+    private final int MAX_CAPACITY = 50; // maximum capacity
+    private final int CONSUMPTION_RATE = 1000; // in milliseconds
     private final Object lock = new Object(); // lock object for synchronization
     private boolean isConsuming = true;
+    private final int MAX_WIDTH = 300;
 
-    public FoodStoresMeter(TextView foodStoresView, int MAX_FOOD_STORES, Context context, Handler handler) {
-        this.foodStoresView = foodStoresView;
+    public FoodStoresMeter(Context context, Handler handler) {
+        this.foodStoresMeter = ((Activity)context).findViewById(R.id.foodStoresMeter);
         this.context = context;
         this.handler = handler;
         updateDisplay();
@@ -35,8 +41,8 @@ public class FoodStoresMeter {
     }
 
     private void updateDisplay() {
-        foodStoresView.setText(String.valueOf(foodStores));
-        foodStoresView.setTextColor(Color.RED);
+        int progress = (foodStores * 100) / MAX_CAPACITY;
+        handler.post(() -> foodStoresMeter.setProgress(progress));
     }
 
     private void consumeFoodStores() {
@@ -52,7 +58,7 @@ public class FoodStoresMeter {
                 }
 
                 try {
-                    Thread.sleep(consumptionRate);
+                    Thread.sleep(CONSUMPTION_RATE);
                 } catch(InterruptedException e) {
                     e.printStackTrace();
                     return;
