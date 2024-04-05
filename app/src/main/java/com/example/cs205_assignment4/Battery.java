@@ -3,10 +3,10 @@ package com.example.cs205_assignment4;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Battery {
+public class Battery implements EnergyService {
     private final double capacity; // Capacity of the battery in kWh
     private double chargeLevel; // Current charge level of the battery in kWh
-    private final double drainRate = 2.0;
+    private final double drainRate = 12.5;
     private final SunMoon sunmoon;
     private final List<BatteryListener> listeners;
 
@@ -42,9 +42,7 @@ public class Battery {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    if (sunmoon.isDay()) {
-                        drain(drainRate / 4);
-                    } else {
+                    if (!sunmoon.isDay()) {
                         drain(drainRate);
                     }
                 }

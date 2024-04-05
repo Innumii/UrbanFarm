@@ -11,24 +11,32 @@ import androidx.appcompat.widget.AppCompatImageView;
 import android.util.Log;
 
 public class PlantSlot extends AppCompatImageView {
+    private DayNightService dayNightService;
+    private EnergyService energyService;
     private int growthStage = 0; // 0: empty, 1: baby, 2: growing, 3: can harvest
     private final int GROWTH_TIME = 5000; // time taken to reach a new growth stage, change if needed
     private final Handler handler = new Handler();
     private Runnable growRunnable;
-    private boolean canGrow = true; // plants can grow when it is day or there is energy reserves
+    private boolean isWaiting = false; // set to true if a plant's growth got halted
 
-    public PlantSlot(Context context) {
+    public PlantSlot(Context context, DayNightService dayNightService, EnergyService energyService) {
         super(context);
+        this.dayNightService = dayNightService;
+        this.energyService = energyService;
         init();
     }
 
-    public PlantSlot(Context context, AttributeSet attrs) {
+    public PlantSlot(Context context, DayNightService dayNightService, EnergyService energyService, AttributeSet attrs) {
         super(context, attrs);
+        this.dayNightService = dayNightService;
+        this.energyService = energyService;
         init();
     }
 
-    public PlantSlot(Context context, AttributeSet attrs, int defStyleAttr) {
+    public PlantSlot(Context context, DayNightService dayNightService, EnergyService energyService,  AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        this.dayNightService = dayNightService;
+        this.energyService = energyService;
         init();
     }
 
@@ -46,28 +54,57 @@ public class PlantSlot extends AppCompatImageView {
         });
     }
 
-    public void setGrowthCondition(boolean canGrow) {
-        this.canGrow = canGrow;
-    }
-
     private void grow() {
-        if(!canGrow) {
+        boolean isNight = !dayNightService.isDay();
+        boolean hasEnergy = energyService.getEnergyStored() > 0;
+        if(growthStage != 0 && isNight && !hasEnergy) {
+            isWaiting = true;
+            checkAndResumeGrowth();
             return;
         }
         growthStage++;
         updatePlantImage();
-        growRunnable = new Runnable() {
+        scheduleGrowth();
+        isWaiting = false;
+    }
+
+    private void scheduleGrowth() {
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                // while a plant is not fully grown, keep increasing its growth stage
-                if(growthStage < 3) {
+                boolean isNight = !dayNightService.isDay();
+                boolean hasEnergy = energyService.getEnergyStored() > 0;
+                if(isNight && !hasEnergy) {
+                    isWaiting = true;
+                    checkAndResumeGrowth();
+                    return; // Prevents further growth
+                }
+                // Only advance growth stage if conditions are met
+                if (growthStage > 0 && growthStage < 3) {
                     growthStage++;
                     updatePlantImage();
-                    handler.postDelayed(this, GROWTH_TIME);
+                    if (growthStage < 3) {
+                        scheduleGrowth(); // Schedule next growth stage
+                    }
                 }
+                isWaiting = false;
             }
-        };
-        handler.postDelayed(growRunnable, GROWTH_TIME);
+        }, GROWTH_TIME);
+    }
+
+    // recurring check to make sure that plants resume growth when conditions are favorable
+    private void checkAndResumeGrowth() {
+        handler.postDelayed(() -> {
+            boolean isDay = dayNightService.isDay();
+            boolean hasEnergy = energyService.getEnergyStored() > 0;
+            if (isDay || hasEnergy) {
+                if (growthStage > 0 && growthStage < 3) {
+                    grow();
+                }
+            } else {
+                checkAndResumeGrowth();
+            }
+        }, 1000);
     }
 
     // harvests the (fully grown) plant and resets it back to an empty slot

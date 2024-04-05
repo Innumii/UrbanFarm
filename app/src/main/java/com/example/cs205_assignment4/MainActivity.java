@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
     private Handler handler;
     private Runnable runnable;
     private FoodStoresMeter foodStoresMeter;
-//    private Button addFoodButton;
     private final int FOOD_AMOUNT = 15; // each harvest increases food stores by this amount
     private static final String CHANNEL_ID = "Channel ID1";
 
@@ -93,14 +92,14 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
 
         // setting a grid for the planting slots
         GridLayout plantSlotsGridLayout = findViewById(R.id.plantSlotsGridLayout);
-        int totalSlots = 12; // can change where needed
+        int totalSlots = 8; // can change where needed
         int numColumns = plantSlotsGridLayout.getColumnCount();
         int numRows = totalSlots / numColumns;
         plantSlotsGridLayout.setRowCount(numRows);
         plantSlotsGridLayout.setColumnCount(numColumns);
 
         for(int i = 0; i < totalSlots; i++) {
-            PlantSlot plantSlot = new PlantSlot(this); // initializes a new planting slot
+            PlantSlot plantSlot = new PlantSlot(this, sunMoon, battery); // initializes a new planting slot
             plantSlot.setOnHarvestListener(this); // tracks user harvesting fully grown plants
             // creates the grid for plant slots
             GridLayout.LayoutParams params = new GridLayout.LayoutParams();
@@ -112,36 +111,8 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
             plantSlotsGridLayout.addView(plantSlot);
         }
 
-        // listening to battery and day/night changes
-        battery.addListener(level -> {
-            boolean canGrow = level > 0 || sunMoon.isDay();
-            for (int i = 0; i < plantSlotsGridLayout.getChildCount(); i++) {
-                View view = plantSlotsGridLayout.getChildAt(i);
-                if (view instanceof PlantSlot) {
-                    ((PlantSlot) view).setGrowthCondition(canGrow);
-                }
-            }
-        });
 
-        sunMoon.setDayNightListener(new SunMoon.DayNightListener() {
-            @Override
-            public void onTransition(float brightness, boolean isDay, String timeOfDay) {
-                boolean canGrow = isDay || (!isDay && battery.getEnergyStored() > 0);
-                for (int i = 0; i < plantSlotsGridLayout.getChildCount(); i++) {
-                    View view = plantSlotsGridLayout.getChildAt(i);
-                    if (view instanceof PlantSlot) {
-                        ((PlantSlot) view).setGrowthCondition(canGrow);
-                    }
-                }
-
-                int backgroundColor = calculateBackgroundColor(brightness);
-                dayNight.setBackgroundColor(backgroundColor);
-                dayNightTextView.setText(isDay ? "Day : " + timeOfDay : "Night : " + timeOfDay);
-            }
-        });
     }
-
-
 
 
     @Override
