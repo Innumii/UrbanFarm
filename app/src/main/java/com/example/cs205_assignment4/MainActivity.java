@@ -1,6 +1,7 @@
 package com.example.cs205_assignment4;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -117,15 +118,17 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
 
     }
 
-
     @Override
     protected void onDestroy() {
-        super.onDestroy();
+
         // Remove the callback to prevent memory leaks
-        handler.removeCallbacks(runnable);
+        if (handler != null) {
+            handler.removeCallbacksAndMessages(null);
+        }
         Handler uiHandler = new Handler(Looper.getMainLooper());
 
         foodStoresMeter = new FoodStoresMeter(this, uiHandler);
+        super.onDestroy();
     }
 
     // method needed for OnHarvestListener interface created in PlantSlot class
@@ -151,5 +154,23 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
         // Return the interpolated color
         return Color.rgb(red, green, blue);
     }
+
+    public void showGameOverScreen() {
+        new AlertDialog.Builder(this)
+                .setTitle("Game Over")
+                .setMessage("At the time your citizens needed you most, you vanished :(")
+                .setPositiveButton("Try Again", (dialog, which) -> restartGame())
+                .setNegativeButton(android.R.string.cancel, (dialog, which) -> finish())
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
+    private void restartGame() {
+        Intent restartIntent = new Intent(this, MainActivity.class);
+        restartIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(restartIntent);
+        finish();
+    }
+
 
 }

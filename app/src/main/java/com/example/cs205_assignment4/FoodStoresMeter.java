@@ -18,12 +18,11 @@ public class FoodStoresMeter {
     private TextView foodStoresView;
     private final Handler handler;
     private final Context context;
-    private int foodStores = 20; // start with some food stores
+    private int foodStores = 10; // start with some food stores
     private final int MAX_CAPACITY = 200; // maximum capacity
     private final int CONSUMPTION_RATE = 500; // how fast citizens consume stores and how quickly their livelihood depletes, in milliseconds
     private final Object lock = new Object(); // lock object for synchronization
     private boolean isConsuming = true;
-    private final int MAX_WIDTH = 300;
 
     public FoodStoresMeter(Context context, Handler handler) {
         this.foodStoresMeter = ((Activity)context).findViewById(R.id.foodStoresMeter);
@@ -60,10 +59,14 @@ public class FoodStoresMeter {
                 synchronized (lock) {
                     if(foodStores > 0) {
                         foodStores--;
+                        // as the citizens consume, their livelihood restores
+                        if(livelihoodMeter != null) {
+                            livelihoodMeter.increaseLivelihood(1);
+                        }
                     } else {
                         // if there is no food left, the citizens will be angy
                         if(livelihoodMeter != null) {
-                            livelihoodMeter.decreaseLivelihood(1);
+                            livelihoodMeter.decreaseLivelihood(3);
                         }
                     }
                     handler.post(this::updateDisplay);
