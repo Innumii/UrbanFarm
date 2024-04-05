@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
@@ -12,164 +10,115 @@
     <View
         android:id="@+id/dayNight"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="120dp"
+        android:background="@color/dayColor"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHeight_percent="0.2"
-        android:background="@color/dayColor" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <!-- Day Night Text View -->
     <TextView
         android:id="@+id/dayNightTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/day_night_label"
+        android:text="Day/Night"
         android:textColor="@color/textColour"
         android:textSize="32sp"
-        app:layout_constraintStart_toStartOf="@id/dayNight"
-        app:layout_constraintEnd_toEndOf="@id/dayNight"
-        app:layout_constraintTop_toTopOf="@id/dayNight"
         app:layout_constraintBottom_toBottomOf="@id/dayNight"
-        app:layout_constraintVertical_bias="0.5"
-        app:layout_constraintHorizontal_bias="0.5"
-        />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/dayNight" />
 
-    <!-- Energy Level View -->
-    <com.example.cs205_assignment4.EnergyLevelView
-        android:id="@+id/energyLevelView"
-        android:layout_width="171dp"
-        android:layout_height="18dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="636dp"
-        android:background="@color/background"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.933"
+    <!-- Plants Grid Layout -->
+    <GridLayout
+        android:id="@+id/plantSlotsGridLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:rowCount="4"
+        android:columnCount="3"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/dayNight"
+        app:layout_constraintBottom_toTopOf="@id/batteryGroup"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.6"
+        app:layout_constraintWidth_percent="0.8">
 
-    <!-- Battery View -->
-    <TextView
-        android:id="@+id/batteryView"
+        <!-- Placeholder for PlantSlot views -->
+    </GridLayout>
+
+    <!-- Guideline to equally divide the layout -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/centerGuideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/day_night_label"
-        app:layout_constraintTop_toBottomOf="@id/energyLevelView"
-        app:layout_constraintEnd_toEndOf="@id/energyLevelView"
-        app:layout_constraintStart_toStartOf="@id/energyLevelView"/>
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
 
-    <!-- Square TextView -->
-    <TextView
-        android:id="@+id/squareTextView"
-        android:layout_width="89dp"
-        android:layout_height="111dp"
-        android:background="@drawable/custom_shapes"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.729"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.546" />
-
-    <!-- Animated Square View -->
-    <com.example.cs205_assignment4.AnimatedSquareView
-        android:id="@+id/squareView"
-        android:layout_width="89dp"
-        android:layout_height="111dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.049"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.25" />
-
-    <!-- Square View 2 -->
-    <TextView
-        android:id="@+id/squareView2"
-        android:layout_width="89dp"
-        android:layout_height="111dp"
-        android:background="@drawable/custom_shapes"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.546" />
-
-    <!-- Image View -->
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="165dp"
-        android:layout_height="162dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.256"
-        app:srcCompat="@drawable/sprout" />
-
-    <!-- Change Shape Button -->
-    <Button
-        android:id="@+id/changeShapeButton"
-        android:layout_width="wrap_content"
+    <!-- Battery Group -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/batteryGroup"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Click Me"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.12"
+        android:layout_margin="8dp"
+        android:padding="8dp"
+        app:layout_constraintTop_toBottomOf="@id/plantSlotsGridLayout"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.901" />
+        app:layout_constraintEnd_toStartOf="@id/centerGuideline">
 
-    <!-- Food Stores Linear Layout -->
-    <LinearLayout
-        android:id="@+id/foodStoresLinearLayout"
-        android:layout_width="match_parent"
+        <!-- Battery Level Text -->
+        <TextView
+            android:id="@+id/batteryView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Battery Level"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- Battery Progress Bar -->
+        <com.example.cs205_assignment4.EnergyLevelView
+            android:id="@+id/energyLevelView"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/batteryView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Food Stores Group -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/foodGroup"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        android:gravity="center_vertical"
-        app:layout_constraintTop_toBottomOf="@+id/squareView2"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="8dp"
+        android:padding="8dp"
+        app:layout_constraintTop_toBottomOf="@id/plantSlotsGridLayout"
+        app:layout_constraintStart_toEndOf="@id/centerGuideline"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <ImageView
-            android:id="@+id/foodStoresIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_info_details" />
-
+        <!-- Food Stores Meter -->
         <ProgressBar
             android:id="@+id/foodStoresMeter"
-            style="@android:style/Widget.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:max="100"
-            android:progress="100" />
-    </LinearLayout>
+            android:progress="50"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-    <Button
-        android:id="@+id/addFoodButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/add_food"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/foodStoresLinearLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:gravity="center"/>
-
-    <Button
-        android:id="@+id/notiButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Notification"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.055"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.569" />
+        <!-- Add Food Button -->
+        <Button
+            android:id="@+id/addFoodButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Food"
+            app:layout_constraintTop_toBottomOf="@id/foodStoresMeter"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

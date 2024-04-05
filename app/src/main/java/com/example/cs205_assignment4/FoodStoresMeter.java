@@ -10,10 +10,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class FoodStoresMeter {
-    private ProgressBar foodStoresMeter;
+    private final ProgressBar foodStoresMeter;
     private TextView foodStoresView;
-    private Handler handler;
-    private Context context;
+    private final Handler handler;
+    private final Context context;
     private int foodStores = 20; // start with some food
     private final int MAX_CAPACITY = 50; // maximum capacity
     private final int CONSUMPTION_RATE = 1000; // in milliseconds

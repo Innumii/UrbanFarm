@@ -8,7 +8,7 @@ public class Battery {
     private double chargeLevel; // Current charge level of the battery in kWh
     private final double drainRate = 2.0;
     private final SunMoon sunmoon;
-    private List<BatteryListener> listeners;
+    private final List<BatteryListener> listeners;
 
     public Battery(double capacity, SunMoon sunmoon) {
         this.capacity = capacity;
