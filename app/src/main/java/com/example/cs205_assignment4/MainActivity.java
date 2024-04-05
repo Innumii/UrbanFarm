@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
 
         dayNight = findViewById(R.id.dayNight);
         dayNightTextView = findViewById(R.id.dayNightTextView);
-//        batteryView = findViewById(R.id.batteryView);
         Handler handler = new Handler(Looper.getMainLooper());
 
         // Start the day-night cycle simulation
@@ -112,7 +111,37 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
             plantSlot.setLayoutParams(params);
             plantSlotsGridLayout.addView(plantSlot);
         }
+
+        // listening to battery and day/night changes
+        battery.addListener(level -> {
+            boolean canGrow = level > 0 || sunMoon.isDay();
+            for (int i = 0; i < plantSlotsGridLayout.getChildCount(); i++) {
+                View view = plantSlotsGridLayout.getChildAt(i);
+                if (view instanceof PlantSlot) {
+                    ((PlantSlot) view).setGrowthCondition(canGrow);
+                }
+            }
+        });
+
+        sunMoon.setDayNightListener(new SunMoon.DayNightListener() {
+            @Override
+            public void onTransition(float brightness, boolean isDay, String timeOfDay) {
+                boolean canGrow = isDay || (!isDay && battery.getEnergyStored() > 0);
+                for (int i = 0; i < plantSlotsGridLayout.getChildCount(); i++) {
+                    View view = plantSlotsGridLayout.getChildAt(i);
+                    if (view instanceof PlantSlot) {
+                        ((PlantSlot) view).setGrowthCondition(canGrow);
+                    }
+                }
+
+                int backgroundColor = calculateBackgroundColor(brightness);
+                dayNight.setBackgroundColor(backgroundColor);
+                dayNightTextView.setText(isDay ? "Day : " + timeOfDay : "Night : " + timeOfDay);
+            }
+        });
     }
+
+
 
 
     @Override

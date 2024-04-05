@@ -15,6 +15,7 @@ public class PlantSlot extends AppCompatImageView {
     private final int GROWTH_TIME = 5000; // time taken to reach a new growth stage, change if needed
     private final Handler handler = new Handler();
     private Runnable growRunnable;
+    private boolean canGrow = true; // plants can grow when it is day or there is energy reserves
 
     public PlantSlot(Context context) {
         super(context);
@@ -45,7 +46,14 @@ public class PlantSlot extends AppCompatImageView {
         });
     }
 
+    public void setGrowthCondition(boolean canGrow) {
+        this.canGrow = canGrow;
+    }
+
     private void grow() {
+        if(!canGrow) {
+            return;
+        }
         growthStage++;
         updatePlantImage();
         growRunnable = new Runnable() {

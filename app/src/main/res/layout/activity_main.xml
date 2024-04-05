@@ -44,7 +44,7 @@
         app:layout_constraintTop_toBottomOf="@id/dayNight"
         app:layout_constraintWidth_percent="0.8">
 
-        <!-- Placeholder for PlantSlot views -->
+        <!-- Plants are generated in MainActivity -->
     </GridLayout>
 
     <!-- Guideline to equally divide the layout -->
