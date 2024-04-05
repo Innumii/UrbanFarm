@@ -37,8 +37,10 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
     private Handler handler;
     private Runnable runnable;
     private FoodStoresMeter foodStoresMeter;
+    private LivelihoodMeter livelihoodMeter;
     private final int FOOD_AMOUNT = 15; // each harvest increases food stores by this amount
     private static final String CHANNEL_ID = "Channel ID1";
+    Handler uiHandler = new Handler(Looper.getMainLooper());
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -47,9 +49,10 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        Handler uiHandler = new Handler(Looper.getMainLooper());
 
         foodStoresMeter = new FoodStoresMeter(this, uiHandler);
+        livelihoodMeter = new LivelihoodMeter(this, uiHandler);
+        foodStoresMeter.setLivelihoodMeter(livelihoodMeter);
 
         dayNight = findViewById(R.id.dayNight);
         dayNightTextView = findViewById(R.id.dayNightTextView);

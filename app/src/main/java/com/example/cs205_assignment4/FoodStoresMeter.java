@@ -1,9 +1,12 @@
 package com.example.cs205_assignment4;
 
+import static android.content.ContentValues.TAG;
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -11,12 +14,13 @@ import android.widget.TextView;
 
 public class FoodStoresMeter {
     private final ProgressBar foodStoresMeter;
+    private LivelihoodMeter livelihoodMeter;
     private TextView foodStoresView;
     private final Handler handler;
     private final Context context;
-    private int foodStores = 50; // start with some food
+    private int foodStores = 20; // start with some food stores
     private final int MAX_CAPACITY = 200; // maximum capacity
-    private final int CONSUMPTION_RATE = 1000; // in milliseconds
+    private final int CONSUMPTION_RATE = 500; // how fast citizens consume stores and how quickly their livelihood depletes, in milliseconds
     private final Object lock = new Object(); // lock object for synchronization
     private boolean isConsuming = true;
     private final int MAX_WIDTH = 300;
@@ -27,6 +31,10 @@ public class FoodStoresMeter {
         this.handler = handler;
         updateDisplay();
         consumeFoodStores();
+    }
+
+    public void setLivelihoodMeter(LivelihoodMeter meter) {
+        this.livelihoodMeter = meter;
     }
 
     public void increaseFoodStores(int amount) {
@@ -52,8 +60,13 @@ public class FoodStoresMeter {
                 synchronized (lock) {
                     if(foodStores > 0) {
                         foodStores--;
-                        handler.post(this::updateDisplay);
+                    } else {
+                        // if there is no food left, the citizens will be angy
+                        if(livelihoodMeter != null) {
+                            livelihoodMeter.decreaseLivelihood(1);
+                        }
                     }
+                    handler.post(this::updateDisplay);
                     lock.notifyAll();
                 }
 

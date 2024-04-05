@@ -29,6 +29,19 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/dayNight" />
 
+    <!-- Livelihood Meter -->
+    <ProgressBar
+        android:id="@+id/livelihoodMeter"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:max="100"
+        android:progress="100"
+        app:layout_constraintTop_toBottomOf="@id/dayNight"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
     <!-- Plants Grid Layout -->
     <GridLayout
         android:id="@+id/plantSlotsGridLayout"

@@ -11,9 +11,11 @@ import androidx.appcompat.widget.AppCompatImageView;
 import android.util.Log;
 
 public class PlantSlot extends AppCompatImageView {
+    // i tried to do dependency injection woohoo
     private DayNightService dayNightService;
     private EnergyService energyService;
-    private int growthStage = 0; // 0: empty, 1: baby, 2: growing, 3: can harvest
+
+    private int growthStage = 0; // growth state of plant -> 0: empty, 1: baby, 2: growing, 3: can harvest
     private final int GROWTH_TIME = 5000; // time taken to reach a new growth stage, change if needed
     private final Handler handler = new Handler();
     private Runnable growRunnable;
@@ -57,6 +59,7 @@ public class PlantSlot extends AppCompatImageView {
     private void grow() {
         boolean isNight = !dayNightService.isDay();
         boolean hasEnergy = energyService.getEnergyStored() > 0;
+        // if a plant is currently growing and conditions are met, halt growth process
         if(growthStage != 0 && isNight && !hasEnergy) {
             isWaiting = true;
             checkAndResumeGrowth();
@@ -65,7 +68,7 @@ public class PlantSlot extends AppCompatImageView {
         growthStage++;
         updatePlantImage();
         scheduleGrowth();
-        isWaiting = false;
+        isWaiting = false; // if a plant can grow, it is not halted
     }
 
     private void scheduleGrowth() {
@@ -77,14 +80,14 @@ public class PlantSlot extends AppCompatImageView {
                 if(isNight && !hasEnergy) {
                     isWaiting = true;
                     checkAndResumeGrowth();
-                    return; // Prevents further growth
+                    return;
                 }
-                // Only advance growth stage if conditions are met
+                // advance growth stage only if conditions are met
                 if (growthStage > 0 && growthStage < 3) {
                     growthStage++;
                     updatePlantImage();
                     if (growthStage < 3) {
-                        scheduleGrowth(); // Schedule next growth stage
+                        scheduleGrowth();
                     }
                 }
                 isWaiting = false;
