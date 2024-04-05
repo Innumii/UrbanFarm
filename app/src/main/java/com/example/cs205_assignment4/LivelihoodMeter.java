@@ -2,6 +2,10 @@ package com.example.cs205_assignment4;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.widget.ProgressBar;
 
@@ -56,8 +60,25 @@ public class LivelihoodMeter {
 
     private void updateDisplay() {
         int progress = (livelihood * 100) / MAX_LIVELIHOOD;
-        handler.post(() -> livelihoodMeter.setProgress(progress, true));
+        handler.post(() -> {
+            livelihoodMeter.setProgress(progress, true);
+//            updateProgressBarColor(livelihoodMeter, progress);
+        });
     }
+
+//    private void updateProgressBarColor(ProgressBar progressBar, int progress) {
+//        int color = Color.parseColor("#006400"); // green
+//        if (progress < 25) {
+//            color = Color.RED;
+//        } else if (progress < 50) {
+//            color = Color.parseColor("#FFC107"); // amber
+//        }
+//
+//        Drawable progressDrawable = progressBar.getProgressDrawable();
+//        if (progressDrawable != null) {
+//            progressDrawable.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN));
+//        }
+//    }
 
     private void stop() {
         isActive = false;

@@ -50,13 +50,12 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-
         foodStoresMeter = new FoodStoresMeter(this, uiHandler);
         livelihoodMeter = new LivelihoodMeter(this, uiHandler);
         foodStoresMeter.setLivelihoodMeter(livelihoodMeter);
 
         dayNight = findViewById(R.id.dayNight);
-        dayNightTextView = findViewById(R.id.dayNightTextView);
+//        dayNightTextView = findViewById(R.id.dayNightTextView);
         Handler handler = new Handler(Looper.getMainLooper());
 
         // Start the day-night cycle simulation
@@ -64,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
         int battery_capacity = 250;
         Battery battery = new Battery(battery_capacity, sunMoon);
         List<SolarPanel> solarPanels = new ArrayList<>();
+        ImageView skylineImage = findViewById(R.id.skylineImage);
+        ImageView lampImage = findViewById(R.id.lampImage);
 
         int numberOfSolarPanels = 2;
         for (int i = 0; i < numberOfSolarPanels; i++) {
@@ -85,9 +86,17 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
                         // Update squareView background color based on brightness
                         int backgroundColor = calculateBackgroundColor(brightness);
                         dayNight.setBackgroundColor(backgroundColor);
-//                        batteryView.setText("Battery : " + (Math.round(battery.getEnergyStored() * 100.0) / 100.0) + " / " + battery.getCapacity());
-                        // Update dayNightTextView text based on time of day
-                        dayNightTextView.setText(isDay ? "Day : " + timeOfDay: "Night : " + timeOfDay);
+                        if (isDay) {
+                            lampImage.setImageResource(R.drawable.lamp_off);
+                            skylineImage.setImageResource(R.drawable.skyline_day);
+                        } else {
+                            lampImage.setImageResource(R.drawable.lamp_on);
+                            skylineImage.setImageResource(R.drawable.skyline_night);
+                        }
+
+                        // Update time of day
+                        TextView timeOfDayTextView = findViewById(R.id.timeOfDayTextView);
+                        timeOfDayTextView.setText(timeOfDay + ":00");
                     }
                 });
             }
@@ -115,7 +124,15 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
             plantSlotsGridLayout.addView(plantSlot);
         }
 
-
+//        // help button
+//        Button btnHelp = findViewById(R.id.btnHelp);
+//        btnHelp.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent helpIntent = new Intent(MainActivity.this, HelpActivity.class);
+//                startActivity(helpIntent);
+//            }
+//        });
     }
 
     @Override
@@ -154,6 +171,8 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
         // Return the interpolated color
         return Color.rgb(red, green, blue);
     }
+
+
 
     public void showGameOverScreen() {
         new AlertDialog.Builder(this)

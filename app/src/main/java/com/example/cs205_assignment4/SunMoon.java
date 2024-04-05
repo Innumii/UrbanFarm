@@ -6,8 +6,8 @@ import android.os.Looper;
 public class SunMoon implements DayNightService {
     private boolean isDay = true;
     private final Handler handler;
-    private static final int TIME_FACTOR = 3000; // milliseconds per in-game hour
-    private static final int TRANSITION_DURATION = TIME_FACTOR * 12; // 24 hours in a day...
+    private static final int TIME_FACTOR = 5000; // milliseconds per in-game hour
+    private static final int TRANSITION_DURATION = TIME_FACTOR * 12; // 24 hours in a day
 
     private float brightness;
 
