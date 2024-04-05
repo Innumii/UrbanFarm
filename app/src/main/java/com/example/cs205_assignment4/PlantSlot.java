@@ -12,6 +12,7 @@ import android.util.Log;
 
 public class PlantSlot extends AppCompatImageView {
     private int growthStage = 0; // 0: empty, 1: baby, 2: growing, 3: can harvest
+    private final int GROWTH_TIME = 5000; // time taken to reach a new growth stage, change if needed
     private final Handler handler = new Handler();
     private Runnable growRunnable;
 
@@ -30,15 +31,16 @@ public class PlantSlot extends AppCompatImageView {
         init();
     }
 
+    // creates an instance of a plant with its onClick events
     private void init() {
         Log.d(TAG, "Initializing PlantSlot with dirt image.");
-        setImageResource(R.drawable.dirt);
+        setImageResource(R.drawable.dirt); // a plant slot is empty by default
         setScaleType(ScaleType.FIT_CENTER);
         setOnClickListener(v -> {
             if(growthStage == 0) {
-                grow();
+                grow(); // sow a plant on an empty slot
             } else if (growthStage == 3) {
-                harvest();
+                harvest(); // a fully grown plant can be harvested
             }
         });
     }
@@ -49,20 +51,25 @@ public class PlantSlot extends AppCompatImageView {
         growRunnable = new Runnable() {
             @Override
             public void run() {
+                // while a plant is not fully grown, keep increasing its growth stage
                 if(growthStage < 3) {
                     growthStage++;
                     updatePlantImage();
-                    handler.postDelayed(this, 5000);
+                    handler.postDelayed(this, GROWTH_TIME);
                 }
             }
         };
-        handler.postDelayed(growRunnable, 5000);
+        handler.postDelayed(growRunnable, GROWTH_TIME);
     }
 
+    // harvests the (fully grown) plant and sets it back to an empty slot
     private void harvest() {
         growthStage = 0;
         updatePlantImage();
         handler.removeCallbacks(growRunnable);
+        if (harvestListener != null) {
+            harvestListener.onHarvest();
+        }
     }
 
     private void updatePlantImage() {
@@ -82,5 +89,15 @@ public class PlantSlot extends AppCompatImageView {
             default:
                 break;
         }
+    }
+
+    public interface OnHarvestListener {
+        void onHarvest();
+    }
+
+    private OnHarvestListener harvestListener;
+
+    public void setOnHarvestListener(OnHarvestListener harvestListener) {
+        this.harvestListener = harvestListener;
     }
 }

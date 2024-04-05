@@ -29,7 +29,7 @@ import android.graphics.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarvestListener {
     private SunMoon sunMoon;
     private TextView dayNightTextView, batteryView, foodStoresTextView;
 
@@ -105,9 +105,10 @@ public class MainActivity extends AppCompatActivity {
 
         for(int i = 0; i < totalSlots; i++) {
             PlantSlot plantSlot = new PlantSlot(this);
+            plantSlot.setOnHarvestListener(this);
             GridLayout.LayoutParams params = new GridLayout.LayoutParams();
-            params.width = 0; // Use MATCH_PARENT if it doesn't work as expected
-            params.height = 0; // Fixed height in pixels, adjust as necessary
+            params.width = 0;
+            params.height = 0;
             params.rowSpec = GridLayout.spec(GridLayout.UNDEFINED, 1, 1f);
             params.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1, 1f);
             plantSlot.setLayoutParams(params);
@@ -126,6 +127,10 @@ public class MainActivity extends AppCompatActivity {
 
         foodStoresMeter = new FoodStoresMeter(this, uiHandler);
         setupButtonListeners();
+    }
+
+    public void onHarvest() {
+        foodStoresMeter.increaseFoodStores(20);
     }
 
     private void setupButtonListeners() {
