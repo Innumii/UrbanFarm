@@ -32,13 +32,13 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarvestListener {
     private SunMoon sunMoon;
     private TextView dayNightTextView, batteryView, foodStoresTextView;
-
     private View dayNight;
     private EnergyLevelView energyLevelView;
     private Handler handler;
     private Runnable runnable;
     private FoodStoresMeter foodStoresMeter;
-    private Button addFoodButton;
+//    private Button addFoodButton;
+    private final int FOOD_AMOUNT = 15; // each harvest increases food stores by this amount
     private static final String CHANNEL_ID = "Channel ID1";
 
     @SuppressLint("SetTextI18n")
@@ -49,10 +49,10 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
         setContentView(R.layout.activity_main);
 
         Handler uiHandler = new Handler(Looper.getMainLooper());
-        addFoodButton = findViewById(R.id.addFoodButton);
+//        addFoodButton = findViewById(R.id.addFoodButton);
 
         foodStoresMeter = new FoodStoresMeter(this, uiHandler);
-        setupButtonListeners();
+//        setupButtonListeners();
 
         dayNight = findViewById(R.id.dayNight);
         dayNightTextView = findViewById(R.id.dayNightTextView);
@@ -94,18 +94,18 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
         });
         sunMoon.startDayNightCycle();
 
+        // setting a grid for the planting slots
         GridLayout plantSlotsGridLayout = findViewById(R.id.plantSlotsGridLayout);
-        int totalSlots = 12;
-
+        int totalSlots = 12; // can change where needed
         int numColumns = plantSlotsGridLayout.getColumnCount();
         int numRows = totalSlots / numColumns;
-
         plantSlotsGridLayout.setRowCount(numRows);
         plantSlotsGridLayout.setColumnCount(numColumns);
 
         for(int i = 0; i < totalSlots; i++) {
-            PlantSlot plantSlot = new PlantSlot(this);
-            plantSlot.setOnHarvestListener(this);
+            PlantSlot plantSlot = new PlantSlot(this); // initializes a new planting slot
+            plantSlot.setOnHarvestListener(this); // tracks user harvesting fully grown plants
+            // creates the grid for plant slots
             GridLayout.LayoutParams params = new GridLayout.LayoutParams();
             params.width = 0;
             params.height = 0;
@@ -123,23 +123,25 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
         // Remove the callback to prevent memory leaks
         handler.removeCallbacks(runnable);
         Handler uiHandler = new Handler(Looper.getMainLooper());
-        addFoodButton = findViewById(R.id.addFoodButton);
+//        addFoodButton = findViewById(R.id.addFoodButton);
 
         foodStoresMeter = new FoodStoresMeter(this, uiHandler);
-        setupButtonListeners();
+//        setupButtonListeners();
     }
 
+    // method needed for OnHarvestListener interface created in PlantSlot class
+    @Override
     public void onHarvest() {
-        foodStoresMeter.increaseFoodStores(20);
+        foodStoresMeter.increaseFoodStores(FOOD_AMOUNT);
     }
 
-    private void setupButtonListeners() {
-        addFoodButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v) {
-                foodStoresMeter.increaseFoodStores(10);
-            }
-        });
-    }
+//    private void setupButtonListeners() {
+//        addFoodButton.setOnClickListener(new View.OnClickListener(){
+//            public void onClick(View v) {
+//                foodStoresMeter.increaseFoodStores(10);
+//            }
+//        });
+//    }
 
     private int calculateBackgroundColor(float brightness) {
         int dayColor = getResources().getColor(R.color.dayColor);

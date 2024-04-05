@@ -62,7 +62,7 @@ public class PlantSlot extends AppCompatImageView {
         handler.postDelayed(growRunnable, GROWTH_TIME);
     }
 
-    // harvests the (fully grown) plant and sets it back to an empty slot
+    // harvests the (fully grown) plant and resets it back to an empty slot
     private void harvest() {
         growthStage = 0;
         updatePlantImage();
