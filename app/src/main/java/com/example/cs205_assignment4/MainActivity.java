@@ -31,7 +31,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarvestListener {
     private SunMoon sunMoon;
-    private TextView dayNightTextView, batteryView, foodStoresTextView;
+    private TextView dayNightTextView, foodStoresTextView;
     private View dayNight;
     private EnergyLevelView energyLevelView;
     private Handler handler;
@@ -49,14 +49,12 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
         setContentView(R.layout.activity_main);
 
         Handler uiHandler = new Handler(Looper.getMainLooper());
-//        addFoodButton = findViewById(R.id.addFoodButton);
 
         foodStoresMeter = new FoodStoresMeter(this, uiHandler);
-//        setupButtonListeners();
 
         dayNight = findViewById(R.id.dayNight);
         dayNightTextView = findViewById(R.id.dayNightTextView);
-        batteryView = findViewById(R.id.batteryView);
+//        batteryView = findViewById(R.id.batteryView);
         Handler handler = new Handler(Looper.getMainLooper());
 
         // Start the day-night cycle simulation
@@ -85,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
                         // Update squareView background color based on brightness
                         int backgroundColor = calculateBackgroundColor(brightness);
                         dayNight.setBackgroundColor(backgroundColor);
-                        batteryView.setText("Battery : " + (Math.round(battery.getEnergyStored() * 100.0) / 100.0) + " / " + battery.getCapacity());
+//                        batteryView.setText("Battery : " + (Math.round(battery.getEnergyStored() * 100.0) / 100.0) + " / " + battery.getCapacity());
                         // Update dayNightTextView text based on time of day
                         dayNightTextView.setText(isDay ? "Day : " + timeOfDay: "Night : " + timeOfDay);
                     }
@@ -123,10 +121,8 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
         // Remove the callback to prevent memory leaks
         handler.removeCallbacks(runnable);
         Handler uiHandler = new Handler(Looper.getMainLooper());
-//        addFoodButton = findViewById(R.id.addFoodButton);
 
         foodStoresMeter = new FoodStoresMeter(this, uiHandler);
-//        setupButtonListeners();
     }
 
     // method needed for OnHarvestListener interface created in PlantSlot class
@@ -134,14 +130,6 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
     public void onHarvest() {
         foodStoresMeter.increaseFoodStores(FOOD_AMOUNT);
     }
-
-//    private void setupButtonListeners() {
-//        addFoodButton.setOnClickListener(new View.OnClickListener(){
-//            public void onClick(View v) {
-//                foodStoresMeter.increaseFoodStores(10);
-//            }
-//        });
-//    }
 
     private int calculateBackgroundColor(float brightness) {
         int dayColor = getResources().getColor(R.color.dayColor);

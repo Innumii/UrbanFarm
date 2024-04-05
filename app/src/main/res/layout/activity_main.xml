@@ -66,15 +66,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/centerGuideline">
 
-        <!-- Battery Level Text -->
-        <TextView
-            android:id="@+id/batteryView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Battery Level"
-            app:layout_constraintTop_toTopOf="parent"
+        <!-- Icon for Energy Levels -->
+        <ImageView
+            android:id="@+id/energyIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:elevation="8dp"
+            android:src="@drawable/status_energy"
+            android:contentDescription="@string/energy"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toTopOf="@id/energyLevelView"
+            app:layout_constraintBottom_toBottomOf="@id/energyLevelView" />
 
         <!-- Battery Progress Bar -->
         <com.example.cs205_assignment4.EnergyLevelView
@@ -82,9 +84,14 @@
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/batteryView"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            android:progressDrawable="@drawable/progress_bar_custom_energy"
+            android:max="100"
+            android:progress="50"
+            app:layout_constraintStart_toEndOf="@id/energyIcon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="8dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- Food Stores Group -->
@@ -116,7 +123,7 @@
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:progressDrawable="@drawable/progress_bar_custom"
+            android:progressDrawable="@drawable/progress_bar_custom_food"
             android:max="100"
             android:progress="50"
             app:layout_constraintStart_toEndOf="@id/foodIcon"
