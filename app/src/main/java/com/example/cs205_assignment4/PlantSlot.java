@@ -55,11 +55,6 @@ public class PlantSlot extends AppCompatImageView {
         });
     }
 
-    public int getGrowthStage() {
-        System.out.println("GROW: " + growthStage);
-        return growthStage;
-    }
-
     private void grow() {
         boolean isNight = !dayNightService.isDay();
         boolean hasEnergy = energyService.getEnergyStored() > 0;
