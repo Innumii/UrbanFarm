@@ -33,7 +33,7 @@
         <service
             android:name=".ForegroundService"
             android:foregroundServiceType="mediaPlayback"
-            />
+            tools:ignore="ForegroundServicePermission" />
     </application>
 
 
