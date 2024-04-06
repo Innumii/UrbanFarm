@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
 //                            skylineImage.setImageResource(R.drawable.skyline_day);
 //                        } else
                         if (!isDay) {
-                            headsUpNotification();
+//                            headsUpNotification();
 
                             if (battery.getEnergyStored() > 0) {
                                 lampImage.setImageResource(R.drawable.lamp_on);
@@ -144,36 +144,36 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
 //        });
     }
 
-    public void headsUpNotification() {
-        System.out.println("notif not working");
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), NotificationPopUp.CHANNEL_ID)
-                .setSmallIcon(R.mipmap.ic_launcher_round)
-                .setContentTitle("Test")
-                .setContentText("Description Is Fine")
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setAutoCancel(true);
-
-        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{android.Manifest.permission.POST_NOTIFICATIONS},
-                    PERMISSION_REQUEST_CODE);
-            return;
-        }
-//        notificationManagerCompat.notify(0, builder.build());
-
-        Intent intentNotif = new Intent(getApplicationContext(), NotificationPopUp.class);
-        intentNotif.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intentNotif.putExtra("data", "Some value to be passed.");
-
-        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),
-                0, intentNotif, PendingIntent.FLAG_MUTABLE);
-        builder.setContentIntent(pendingIntent);
-        NotificationManager notiManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-
-        System.out.println("Notif sent?");
-    }
+//    public void headsUpNotification() {
+//        System.out.println("notif not working");
+//        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), NotificationPopUp.CHANNEL_ID)
+//                .setSmallIcon(R.mipmap.ic_launcher_round)
+//                .setContentTitle("Test")
+//                .setContentText("Description Is Fine")
+//                .setPriority(NotificationCompat.PRIORITY_HIGH)
+//                .setAutoCancel(true);
+//
+//        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
+//        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+//            ActivityCompat.requestPermissions(this,
+//                    new String[]{android.Manifest.permission.POST_NOTIFICATIONS},
+//                    PERMISSION_REQUEST_CODE);
+//            return;
+//        }
+////        notificationManagerCompat.notify(0, builder.build());
+//
+//        Intent intentNotif = new Intent(getApplicationContext(), NotificationPopUp.class);
+//        intentNotif.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        intentNotif.putExtra("data", "Some value to be passed.");
+//
+//        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),
+//                0, intentNotif, PendingIntent.FLAG_MUTABLE);
+//        builder.setContentIntent(pendingIntent);
+//        NotificationManager notiManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//
+//
+//        System.out.println("Notif sent?");
+//    }
     @Override
     protected void onDestroy() {
 
