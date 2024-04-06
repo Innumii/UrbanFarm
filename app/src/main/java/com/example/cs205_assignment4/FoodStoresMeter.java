@@ -58,13 +58,15 @@ public class FoodStoresMeter {
             while(isConsuming) {
                 synchronized (lock) {
                     if(foodStores > 0) {
-                        foodStores -= 2; // the citizens consume 2 food woop
+                        foodStores = Math.max(foodStores-2, 0);
                         // as the citizens consume, their livelihood restores
                         if(livelihoodMeter != null) {
                             livelihoodMeter.increaseLivelihood(1);
                         }
                     } else {
                         // if there is no food left, the citizens will be angy
+                        // constant notification if foodmeter empty
+                        NotificationHelper.showVariableNotification(context, foodStores);
                         if(livelihoodMeter != null) {
                             livelihoodMeter.decreaseLivelihood(3);
                         }

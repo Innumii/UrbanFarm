@@ -16,6 +16,8 @@ import android.util.Log;
 
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.WindowInsets;
+import android.view.WindowInsetsController;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
@@ -24,6 +26,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.activity.EdgeToEdge;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
+import android.view.WindowManager;
 
 import android.graphics.Color;
 
@@ -47,8 +50,36 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Create the notification channel
+        NotificationHelper.createNotificationChannel(this);
+
+        // Start the foreground service when the game is active
+        Intent serviceIntent = new Intent(this, ForegroundService.class);
+        startService(serviceIntent);
+
         EdgeToEdge.enable(this);
+        // Hide the status bar
+        hideStatusBar();
+
         setContentView(R.layout.activity_main);
+
+        // Get the content view (root view) of the activity
+        View contentView = findViewById(android.R.id.content);
+
+        // Set an OnClickListener to the content view
+        contentView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Delay hiding the status bar by 1 second
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        hideStatusBar();
+                    }
+                }, 2000);
+            }
+        });
 
         foodStoresMeter = new FoodStoresMeter(this, uiHandler);
         livelihoodMeter = new LivelihoodMeter(this, uiHandler);
@@ -148,6 +179,20 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
         super.onDestroy();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        hideStatusBar();
+    }
+
+    private void hideStatusBar() {
+        WindowInsetsController insetsController = getWindow().getInsetsController();
+        if (insetsController != null) {
+            insetsController.hide(WindowInsets.Type.statusBars());
+        }
+    }
+
     // method needed for OnHarvestListener interface created in PlantSlot class
     @Override
     public void onHarvest() {
@@ -190,6 +235,7 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
         startActivity(restartIntent);
         finish();
     }
+
 
 
 }
