@@ -23,7 +23,7 @@ public class MenuActivity extends AppCompatActivity {
         imgStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MenuActivity.this, MainActivity.class);
+                Intent intent = new Intent(MenuActivity.this, IntroActivity.class);
                 startActivity(intent);
             }
         });
