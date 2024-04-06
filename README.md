@@ -1,6 +1,6 @@
 <h1>Harvesting Plants App</h1>
 <h3>Overview</h3>
-Welcome to Plantation! The year is 2100. Singapore has finally attained full self-sufficiency in producing its own food and electricity.</br>
+Welcome to UrbanFarm! The year is 2100. Singapore has finally attained full self-sufficiency in producing its own food and electricity.</br>
 Solar panels, food plots and night-lamps are found on every HDB rooftop, allowing for constant plant growth, day and night.</br>
 This app simulates a rooftop farming system in the year 2100, where crops are grown on rooftops using sunlight in the day and lights that are powered by solar panels. </br></br>
 
