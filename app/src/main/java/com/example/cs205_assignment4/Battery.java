@@ -6,7 +6,7 @@ import java.util.List;
 public class Battery implements EnergyService {
     private final double capacity; // Capacity of the battery in kWh
     private double chargeLevel; // Current charge level of the battery in kWh
-    private final double drainRate = 12.5;
+    private final double drainRate = 5;
     private final SunMoon sunmoon;
     private final List<BatteryListener> listeners;
 

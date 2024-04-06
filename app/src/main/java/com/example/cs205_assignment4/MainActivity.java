@@ -51,8 +51,6 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
         EdgeToEdge.enable(this);
 
         hideStatusBar();

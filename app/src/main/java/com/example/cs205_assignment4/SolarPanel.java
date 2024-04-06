@@ -2,7 +2,7 @@ package com.example.cs205_assignment4;
 
 public class SolarPanel implements Runnable {
     private final SunMoon sunMoon;
-    private static final int ENERGY_GENERATION_RATE = 10; // Adjust as needed
+    private static final int ENERGY_GENERATION_RATE = 5; // Adjust as needed
 
     private boolean isRunning = true;
     private final Battery battery;
@@ -25,7 +25,7 @@ public class SolarPanel implements Runnable {
             if (sunMoon.isDay()) {
                 // Generate energy during the day
                 battery.charge(ENERGY_GENERATION_RATE * sunMoon.getBrightness());
-                System.out.println("Energy stored: " + battery.getEnergyStored());
+                //System.out.println("Energy stored: " + battery.getEnergyStored());
             }
         }
     }
