@@ -65,6 +65,8 @@ public class FoodStoresMeter {
                         }
                     } else {
                         // if there is no food left, the citizens will be angy
+                        NotificationHelper notificationHelper = new NotificationHelper(context);
+                        notificationHelper.showGameNotification();
                         if(livelihoodMeter != null) {
                             livelihoodMeter.decreaseLivelihood(3);
                         }

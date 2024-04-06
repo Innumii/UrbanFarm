@@ -44,10 +44,14 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
     private static final String CHANNEL_ID = "Channel ID1";
     Handler uiHandler = new Handler(Looper.getMainLooper());
 
+    private NotificationHelper notificationHelper;
+
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
 
         EdgeToEdge.enable(this);
 
@@ -194,6 +198,12 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
 
         foodStoresMeter = new FoodStoresMeter(this, uiHandler);
         super.onDestroy();
+        // Remove existing notifications from the status bar
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        if (notificationManager != null) {
+            notificationManager.cancelAll();
+        }
+        notificationHelper.deleteNotificationChannel();
     }
 
     // method needed for OnHarvestListener interface created in PlantSlot class
