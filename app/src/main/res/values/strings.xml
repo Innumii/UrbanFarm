@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Plantation</string>
+    <string name="app_name">UrbanFarm</string>
     <string name="add_food">Add Food</string>
     <string name="food_stores_0">Food Stores: 0</string>
     <string name="day_night_label">day/night</string>
