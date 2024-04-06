@@ -12,6 +12,8 @@ import android.os.Handler;
 import android.os.Looper;
 
 import android.view.View;
+import android.view.WindowInsets;
+import android.view.WindowInsetsController;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -46,8 +48,29 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         EdgeToEdge.enable(this);
+
+        hideStatusBar();
+
         setContentView(R.layout.activity_main);
+
+        // Get the content view (root view) of the activity
+        View contentView = findViewById(android.R.id.content);
+
+        // Set an OnClickListener to the content view
+        contentView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Delay hiding the status bar by 1 second
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        hideStatusBar();
+                    }
+                }, 2000);
+            }
+        });
 
         foodStoresMeter = new FoodStoresMeter(this, uiHandler);
         livelihoodMeter = new LivelihoodMeter(this, uiHandler);
@@ -142,6 +165,22 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
 //                startActivity(helpIntent);
 //            }
 //        });
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Hide the status bar again when the activity resumes
+        hideStatusBar();
+    }
+
+    private void hideStatusBar() {
+        WindowInsetsController insetsController = getWindow().getInsetsController();
+        if (insetsController != null) {
+            insetsController.hide(WindowInsets.Type.statusBars());
+        }
     }
 
     @Override
