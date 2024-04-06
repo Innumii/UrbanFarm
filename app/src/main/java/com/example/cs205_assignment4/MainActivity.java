@@ -2,6 +2,9 @@ package com.example.cs205_assignment4;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -86,10 +89,14 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
 //                            lampImage.setImageResource(R.drawable.lamp_off);
 //                            skylineImage.setImageResource(R.drawable.skyline_day);
 //                        } else
-                        if (battery.getEnergyStored() > 0 && !isDay) {
+                        if (!isDay) {
                             headsUpNotification();
 
-                            lampImage.setImageResource(R.drawable.lamp_on);
+                            if (battery.getEnergyStored() > 0) {
+                                lampImage.setImageResource(R.drawable.lamp_on);
+                            } else {
+                                lampImage.setImageResource(R.drawable.lamp_off);
+                            }
                             skylineImage.setImageResource(R.drawable.skyline_night);
                         } else {
                             lampImage.setImageResource(R.drawable.lamp_off);
@@ -139,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
 
     public void headsUpNotification() {
         System.out.println("notif not working");
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NotificationPopUp.CHANNEL_ID)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), NotificationPopUp.CHANNEL_ID)
                 .setSmallIcon(R.mipmap.ic_launcher_round)
                 .setContentTitle("Test")
                 .setContentText("Description Is Fine")
@@ -153,7 +160,17 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
                     PERMISSION_REQUEST_CODE);
             return;
         }
-        notificationManagerCompat.notify(0, builder.build());
+//        notificationManagerCompat.notify(0, builder.build());
+
+        Intent intentNotif = new Intent(getApplicationContext(), NotificationPopUp.class);
+        intentNotif.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intentNotif.putExtra("data", "Some value to be passed.");
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),
+                0, intentNotif, PendingIntent.FLAG_MUTABLE);
+        builder.setContentIntent(pendingIntent);
+        NotificationManager notiManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
 
         System.out.println("Notif sent?");
     }
