@@ -34,33 +34,6 @@
         app:layout_constraintBottom_toBottomOf="@+id/dayNight"
         app:layout_constraintEnd_toEndOf="@+id/dayNight" />
 
-<!--    &lt;!&ndash; Help Button &ndash;&gt;-->
-<!--    <Button-->
-<!--        android:id="@+id/btnHelp"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Help"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/meterGroup"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/plantSlotsGridLayout"-->
-<!--        android:layout_marginBottom="16dp"/>-->
-
-<!--    &lt;!&ndash; Help Screen &ndash;&gt;-->
-<!--    <ScrollView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        tools:context=".HelpActivity">-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/txtHelpContent"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:padding="16dp"-->
-<!--            android:textSize="16sp"-->
-<!--            android:text="@string/description" />-->
-<!--    </ScrollView>-->
-
     <ImageView
         android:id="@+id/skylineImage"
         android:layout_width="0dp"
