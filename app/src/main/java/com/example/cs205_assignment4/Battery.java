@@ -10,6 +10,8 @@ public class Battery implements EnergyService {
     private final SunMoon sunmoon;
     private final List<BatteryListener> listeners;
 
+    private PlantSlot plantSlot;
+
     public Battery(double capacity, SunMoon sunmoon) {
         this.capacity = capacity;
         this.chargeLevel = 0; // Battery starts with zero charge
