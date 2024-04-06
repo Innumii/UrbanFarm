@@ -14,7 +14,6 @@ public class PlantSlot extends AppCompatImageView {
     // i tried to do dependency injection woohoo
     private DayNightService dayNightService;
     private EnergyService energyService;
-
     private int growthStage = 0; // growth state of plant -> 0: empty, 1: baby, 2: growing, 3: can harvest
     private final int GROWTH_TIME = 5000; // time taken to reach a new growth stage, change if needed
     private final Handler handler = new Handler();

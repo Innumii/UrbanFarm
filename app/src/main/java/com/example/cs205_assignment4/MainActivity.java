@@ -2,28 +2,25 @@ package com.example.cs205_assignment4;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 import android.view.View;
-import android.view.ViewTreeObserver;
-import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.activity.EdgeToEdge;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
-import androidx.core.content.ContextCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import android.graphics.Color;
 
@@ -31,10 +28,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarvestListener {
+    private static final int PERMISSION_REQUEST_CODE = 1001;
     private SunMoon sunMoon;
     private TextView dayNightTextView, foodStoresTextView;
     private View dayNight;
     private EnergyLevelView energyLevelView;
+    private Battery battery;
     private Handler handler;
     private Runnable runnable;
     private FoodStoresMeter foodStoresMeter;
@@ -61,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
         // Start the day-night cycle simulation
         SunMoon sunMoon = new SunMoon();
         int battery_capacity = 250;
-        Battery battery = new Battery(battery_capacity, sunMoon);
+        battery = new Battery(battery_capacity, sunMoon);
         List<SolarPanel> solarPanels = new ArrayList<>();
         ImageView skylineImage = findViewById(R.id.skylineImage);
         ImageView lampImage = findViewById(R.id.lampImage);
@@ -86,12 +85,22 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
                         // Update squareView background color based on brightness
                         int backgroundColor = calculateBackgroundColor(brightness);
                         dayNight.setBackgroundColor(backgroundColor);
-                        if (isDay) {
+//                        if (isDay) {
+//                            lampImage.setImageResource(R.drawable.lamp_off);
+//                            skylineImage.setImageResource(R.drawable.skyline_day);
+//                        } else
+                        if (!isDay) {
+//                            headsUpNotification();
+
+                            if (battery.getEnergyStored() > 0) {
+                                lampImage.setImageResource(R.drawable.lamp_on);
+                            } else {
+                                lampImage.setImageResource(R.drawable.lamp_off);
+                            }
+                            skylineImage.setImageResource(R.drawable.skyline_night);
+                        } else {
                             lampImage.setImageResource(R.drawable.lamp_off);
                             skylineImage.setImageResource(R.drawable.skyline_day);
-                        } else {
-                            lampImage.setImageResource(R.drawable.lamp_on);
-                            skylineImage.setImageResource(R.drawable.skyline_night);
                         }
 
                         // Update time of day
@@ -111,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
         plantSlotsGridLayout.setRowCount(numRows);
         plantSlotsGridLayout.setColumnCount(numColumns);
 
-        for(int i = 0; i < totalSlots; i++) {
+        for (int i = 0; i < totalSlots; i++) {
             PlantSlot plantSlot = new PlantSlot(this, sunMoon, battery); // initializes a new planting slot
             plantSlot.setOnHarvestListener(this); // tracks user harvesting fully grown plants
             // creates the grid for plant slots
@@ -135,6 +144,36 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
 //        });
     }
 
+//    public void headsUpNotification() {
+//        System.out.println("notif not working");
+//        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), NotificationPopUp.CHANNEL_ID)
+//                .setSmallIcon(R.mipmap.ic_launcher_round)
+//                .setContentTitle("Test")
+//                .setContentText("Description Is Fine")
+//                .setPriority(NotificationCompat.PRIORITY_HIGH)
+//                .setAutoCancel(true);
+//
+//        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
+//        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+//            ActivityCompat.requestPermissions(this,
+//                    new String[]{android.Manifest.permission.POST_NOTIFICATIONS},
+//                    PERMISSION_REQUEST_CODE);
+//            return;
+//        }
+////        notificationManagerCompat.notify(0, builder.build());
+//
+//        Intent intentNotif = new Intent(getApplicationContext(), NotificationPopUp.class);
+//        intentNotif.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        intentNotif.putExtra("data", "Some value to be passed.");
+//
+//        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),
+//                0, intentNotif, PendingIntent.FLAG_MUTABLE);
+//        builder.setContentIntent(pendingIntent);
+//        NotificationManager notiManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//
+//
+//        System.out.println("Notif sent?");
+//    }
     @Override
     protected void onDestroy() {
 
@@ -171,8 +210,6 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
         // Return the interpolated color
         return Color.rgb(red, green, blue);
     }
-
-
 
     public void showGameOverScreen() {
         new AlertDialog.Builder(this)
