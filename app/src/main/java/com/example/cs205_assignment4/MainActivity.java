@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void buttonClicked(View view) {
-        Intent indent = new Intent(this, GameActivity.class);
+        Intent indent = new Intent(this, MenuActivity.class);
         startActivity(indent);
     }
 
