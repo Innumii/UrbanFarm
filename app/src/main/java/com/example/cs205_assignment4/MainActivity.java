@@ -216,7 +216,12 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
                 .setTitle("Game Over")
                 .setMessage("At the time your citizens needed you most, you vanished :(")
                 .setPositiveButton("Try Again", (dialog, which) -> restartGame())
-                .setNegativeButton(android.R.string.cancel, (dialog, which) -> finish())
+//                .setNegativeButton(android.R.string.cancel, (dialog, which) -> finish())
+                .setNegativeButton("Go to Menu", (dialog, which) -> {
+                    Intent intent = new Intent(this, MenuActivity.class);
+                    startActivity(intent);
+                    finish();
+                })
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
     }
@@ -227,6 +232,7 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
         startActivity(restartIntent);
         finish();
     }
+
 
 
 }
