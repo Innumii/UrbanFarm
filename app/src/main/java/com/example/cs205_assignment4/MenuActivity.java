@@ -16,22 +16,31 @@ public class MenuActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-//        ImageView imageView = findViewById(R.id.imgStart);
-//        imageView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(MenuActivity.this, MainActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_menu);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+
+        ImageView imgStart = findViewById(R.id.imgStart);
+        ImageView imgHelp = findViewById(R.id.imgHelp);
+        imgStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MenuActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
         });
+
+        imgHelp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MenuActivity.this, MenuHelpActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+    }
+
+    public void buttonClicked(View view) {
+        Intent indent = new Intent(this, MenuActivity.class);
+        startActivity(indent);
     }
 }
