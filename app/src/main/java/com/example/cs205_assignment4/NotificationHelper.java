@@ -39,7 +39,6 @@ public class NotificationHelper {
                 .setContentTitle("Your food stores are depleted!")
                 .setContentText("Harvest food to prevent your population from starving!")
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setOnlyAlertOnce(true)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         notificationManager.notify(0, builder.build());
