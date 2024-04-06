@@ -20,7 +20,7 @@ public class FoodStoresMeter {
     private final Context context;
     private int foodStores = 30; // start with some food stores
     private final int MAX_CAPACITY = 200; // maximum capacity
-    private final int CONSUMPTION_RATE = 2000; // how fast citizens consume stores and how quickly their livelihood depletes, in milliseconds
+    private final int CONSUMPTION_RATE = 1000; // how fast citizens consume stores and how quickly their livelihood depletes, in milliseconds
     private final Object lock = new Object(); // lock object for synchronization
     private boolean isConsuming = true;
 
