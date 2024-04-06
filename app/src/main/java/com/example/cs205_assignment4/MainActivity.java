@@ -3,10 +3,7 @@ package com.example.cs205_assignment4;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -20,9 +17,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.activity.EdgeToEdge;
-import androidx.core.app.ActivityCompat;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 
 import android.graphics.Color;
 
@@ -32,7 +26,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarvestListener {
     private static final int PERMISSION_REQUEST_CODE = 1001;
     private SunMoon sunMoon;
-    private TextView dayNightTextView, foodStoresTextView;
     private View dayNight;
     private EnergyLevelView energyLevelView;
     private Battery battery;

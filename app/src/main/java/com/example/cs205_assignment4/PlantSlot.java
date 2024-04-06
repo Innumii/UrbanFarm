@@ -5,8 +5,6 @@ import static android.content.ContentValues.TAG;
 import android.content.Context;
 import android.os.Handler;
 import android.util.AttributeSet;
-import android.view.View;
-
 import androidx.appcompat.widget.AppCompatImageView;
 import android.util.Log;
 
