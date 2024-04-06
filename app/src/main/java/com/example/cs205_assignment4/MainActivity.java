@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
 
         // Start the day-night cycle simulation
         SunMoon sunMoon = new SunMoon();
+        foodStoresMeter.setDayNightService(sunMoon);
         int battery_capacity = 250;
         battery = new Battery(battery_capacity, sunMoon);
         List<SolarPanel> solarPanels = new ArrayList<>();

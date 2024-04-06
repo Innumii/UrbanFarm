@@ -24,6 +24,12 @@ public class FoodStoresMeter {
     private final Object lock = new Object(); // lock object for synchronization
     private boolean isConsuming = true;
 
+    private DayNightService dayNightService;
+
+    public void setDayNightService(DayNightService service) {
+        this.dayNightService = service;
+    }
+
     public FoodStoresMeter(Context context, Handler handler) {
         this.foodStoresMeter = ((Activity)context).findViewById(R.id.foodStoresMeter);
         this.context = context;
@@ -58,7 +64,11 @@ public class FoodStoresMeter {
             while(isConsuming) {
                 synchronized (lock) {
                     if(foodStores > 0) {
-                        foodStores -= 2; // the citizens consume 2 food woop
+                        int consumptionAmount = 2;
+                        if(dayNightService != null) {
+                            consumptionAmount = dayNightService.isDay() ? 2 : 4; // the citizens consume faster at night
+                        }
+                        foodStores -= consumptionAmount; // the citizens consume food woop
                         // as the citizens consume, their livelihood restores
                         if(livelihoodMeter != null) {
                             livelihoodMeter.increaseLivelihood(1);
