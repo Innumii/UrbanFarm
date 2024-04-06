@@ -7,6 +7,24 @@
     android:background="@color/grey_stone"
     tools:context=".MainActivity">
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/top20PercentGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.20" />
+
+    <ImageView
+        android:id="@+id/imageForBottom80"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/top20PercentGuideline"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/roof_bg" />
+
     <!-- Day Night View -->
     <View
         android:id="@+id/dayNight"
@@ -34,33 +52,6 @@
         app:layout_constraintBottom_toBottomOf="@+id/dayNight"
         app:layout_constraintEnd_toEndOf="@+id/dayNight" />
 
-<!--    &lt;!&ndash; Help Button &ndash;&gt;-->
-<!--    <Button-->
-<!--        android:id="@+id/btnHelp"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Help"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/meterGroup"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/plantSlotsGridLayout"-->
-<!--        android:layout_marginBottom="16dp"/>-->
-
-<!--    &lt;!&ndash; Help Screen &ndash;&gt;-->
-<!--    <ScrollView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        tools:context=".HelpActivity">-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/txtHelpContent"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:padding="16dp"-->
-<!--            android:textSize="16sp"-->
-<!--            android:text="@string/description" />-->
-<!--    </ScrollView>-->
-
     <ImageView
         android:id="@+id/skylineImage"
         android:layout_width="0dp"
@@ -68,13 +59,14 @@
         app:layout_constraintBottom_toBottomOf="@id/dayNight"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/skyline_day" />
+        app:srcCompat="@drawable/skyline_day"
+        android:layout_marginBottom="-1.5dp"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/livelihoodGroup"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="40dp"
         app:layout_constraintTop_toBottomOf="@id/dayNight"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
