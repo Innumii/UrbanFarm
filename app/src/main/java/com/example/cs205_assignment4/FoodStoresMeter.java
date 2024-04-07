@@ -17,6 +17,7 @@ public class FoodStoresMeter {
     private final int CONSUMPTION_RATE = 1000; // how fast citizens consume stores and how quickly their livelihood depletes, in milliseconds
     private final Object lock = new Object(); // lock object for synchronization
     private boolean isConsuming = true;
+    private boolean isDying = true;
 
     public FoodStoresMeter(Context context, Handler handler) {
         this.foodStoresMeter = ((Activity)context).findViewById(R.id.foodStoresMeter);
@@ -56,11 +57,15 @@ public class FoodStoresMeter {
                         // as the citizens consume, their livelihood restores
                         if(livelihoodMeter != null) {
                             livelihoodMeter.increaseLivelihood(1);
+                            isDying = true;
                         }
                     } else {
                         // if there is no food left, the citizens will be angy
-                        NotificationHelper notificationHelper = new NotificationHelper(context);
-                        notificationHelper.showGameNotification();
+                        if (isDying) {
+                            NotificationHelper notificationHelper = new NotificationHelper(context);
+                            notificationHelper.showGameNotification();
+                            isDying = false;
+                        }
                         if(livelihoodMeter != null) {
                             livelihoodMeter.decreaseLivelihood(3);
                         }
