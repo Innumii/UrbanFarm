@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 
+import android.util.Log;
 import android.view.View;
 import android.view.WindowInsets;
 import android.view.WindowInsetsController;
@@ -229,20 +230,17 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
 //                .setNegativeButton(android.R.string.cancel, (dialog, which) -> finish())
                 .setNegativeButton("Go to Menu", (dialog, which) -> {
                     Intent intent = new Intent(this, MenuActivity.class);
+                    //Clears task
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
-                    finish();
                 })
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
     }
 
     private void restartGame() {
-        Intent restartIntent = new Intent(this, MainActivity.class);
-        restartIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        Intent restartIntent = new Intent(this, IntroActivity.class);
+        restartIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(restartIntent);
-        finish();
     }
-
-
-
 }
