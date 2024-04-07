@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
     private static final String CHANNEL_ID = "Channel ID1";
     Handler uiHandler = new Handler(Looper.getMainLooper());
 
+    private List<SolarPanel> solarPanels;
+
     private NotificationHelper notificationHelper;
 
     @SuppressLint("SetTextI18n")
@@ -80,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
         SunMoon sunMoon = new SunMoon();
         int battery_capacity = 250;
         battery = new Battery(battery_capacity, sunMoon);
-        List<SolarPanel> solarPanels = new ArrayList<>();
+        solarPanels = new ArrayList<>();
         ImageView skylineImage = findViewById(R.id.skylineImage);
         ImageView lampImage = findViewById(R.id.lampImage);
 
@@ -189,6 +191,19 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
         Handler uiHandler = new Handler(Looper.getMainLooper());
 
         foodStoresMeter = new FoodStoresMeter(this, uiHandler);
+
+        // Stop the day-night cycle and release associated resources
+        if (sunMoon != null) {
+            sunMoon.stopDayNightCycle();
+        }
+
+        // Stop all running solar panels and release associated resources
+        if (solarPanels != null) {
+            for (SolarPanel solarPanel : solarPanels) {
+                solarPanel.stop();
+            }
+        }
+
         super.onDestroy();
         // Remove existing notifications from the status bar
         NotificationManager notificationManager = getSystemService(NotificationManager.class);
