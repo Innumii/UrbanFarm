@@ -38,7 +38,7 @@ public class NotificationHelper {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setContentTitle("Your food stores are depleted!")
                 .setContentText("Harvest food to prevent your population from starving!")
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.mipmap.logo_launcher)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         notificationManager.notify(0, builder.build());
