@@ -75,7 +75,6 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
         foodStoresMeter.setLivelihoodMeter(livelihoodMeter);
 
         dayNight = findViewById(R.id.dayNight);
-//        dayNightTextView = findViewById(R.id.dayNightTextView);
         Handler handler = new Handler(Looper.getMainLooper());
 
         // Start the day-night cycle simulation
@@ -97,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
         energyLevelView.setBattery(battery);
 
         sunMoon.setDayNightListener(new SunMoon.DayNightListener() {
+            // gets the time of day onTransition
             @Override
             public void onTransition(float brightness, boolean isDay, String timeOfDay) {
                 // Update UI for smooth transition
@@ -106,13 +106,7 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
                         // Update squareView background color based on brightness
                         int backgroundColor = calculateBackgroundColor(brightness);
                         dayNight.setBackgroundColor(backgroundColor);
-//                        if (isDay) {
-//                            lampImage.setImageResource(R.drawable.lamp_off);
-//                            skylineImage.setImageResource(R.drawable.skyline_day);
-//                        } else
                         if (!isDay) {
-//                            headsUpNotification();
-
                             if (battery.getEnergyStored() > 0) {
                                 lampImage.setImageResource(R.drawable.lamp_on);
                             } else {
@@ -124,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements PlantSlot.OnHarve
                             skylineImage.setImageResource(R.drawable.skyline_day);
                         }
 
-                        // Update time of day
+                        // Update and display time of day (Clock)
                         TextView timeOfDayTextView = findViewById(R.id.timeOfDayTextView);
                         timeOfDayTextView.setText(timeOfDay + ":00");
                     }

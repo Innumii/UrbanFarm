@@ -59,7 +59,7 @@ public class FoodStoresMeter {
                             livelihoodMeter.increaseLivelihood(1);
                             isDying = true;
                         }
-                    } else {
+                    } else { // if the food stores are empty, citizens "wait" for food which causes livelihood to decrease
                         // if there is no food left, the citizens will be angy
                         if (isDying) {
                             NotificationHelper notificationHelper = new NotificationHelper(context);
