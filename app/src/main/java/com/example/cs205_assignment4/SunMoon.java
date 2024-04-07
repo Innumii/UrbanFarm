@@ -8,7 +8,7 @@ public class SunMoon implements DayNightService {
     private final Handler handler;
     private static final int TIME_FACTOR = 5000; // milliseconds per in-game hour
     private static final int TRANSITION_DURATION = TIME_FACTOR * 12; // 24 hours in a day
-
+    private volatile boolean isRunning = true; // Flag to control the loop execution
     private float brightness;
 
     public SunMoon() {
@@ -18,7 +18,6 @@ public class SunMoon implements DayNightService {
     public interface DayNightListener {
         void onTransition(float brightness, boolean isDay, String timeOfDay);
     }
-
     private DayNightListener dayNightListener;
 
     public void setDayNightListener(DayNightListener listener) {
@@ -30,7 +29,7 @@ public class SunMoon implements DayNightService {
             @Override
             public void run() {
                 long startTime = System.currentTimeMillis();
-                while (true) {
+                while (isRunning) {
                     try {
                         Thread.sleep(100); // Update brightness every 100 milliseconds
                     } catch (InterruptedException e) {
@@ -71,6 +70,11 @@ public class SunMoon implements DayNightService {
                 }
             }
         }).start();
+    }
+
+    // Method to stop the day-night cycle
+    public void stopDayNightCycle() {
+        isRunning = false; // Set the flag to false to stop the loop
     }
 
     public boolean isDay() {
